@@ -1,4 +1,5 @@
 """Run real browser persistence checks in a dedicated, disposable Neon schema."""
+
 import os
 import re
 import shutil
@@ -40,25 +41,56 @@ def main():
         with engine.begin() as db:
             db.execute(text(f'CREATE SCHEMA "{schema}"'))
             Base.metadata.create_all(db.execution_options(schema_translate_map={"sdr": schema}))
-        env = {**os.environ, "APP_ENV": "test", "SDR_TEST_SCHEMA": schema,
-               "BACKEND_URL": "http://127.0.0.1:8001", "E2E_BASE_URL": "http://127.0.0.1:5174",
-               "ISOLATED_E2E": "1"}
-        commands = [([sys.executable, "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8001"],
-                     ROOT / "backend", "acceptance-backend.log"),
-                    ([sys.executable, "-m", "app.worker"], ROOT / "backend", "acceptance-worker.log"),
-                    ([node, str(ROOT / "frontend/node_modules/vite/bin/vite.js"), "--host", "127.0.0.1", "--port", "5174"],
-                     ROOT / "frontend", "acceptance-frontend.log")]
+        env = {
+            **os.environ,
+            "APP_ENV": "test",
+            "SDR_TEST_SCHEMA": schema,
+            "BACKEND_URL": "http://127.0.0.1:8001",
+            "E2E_BASE_URL": "http://127.0.0.1:5174",
+            "ISOLATED_E2E": "1",
+        }
+        commands = [
+            (
+                [sys.executable, "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8001"],
+                ROOT / "backend",
+                "acceptance-backend.log",
+            ),
+            ([sys.executable, "-m", "app.worker"], ROOT / "backend", "acceptance-worker.log"),
+            (
+                [
+                    node,
+                    str(ROOT / "frontend/node_modules/vite/bin/vite.js"),
+                    "--host",
+                    "127.0.0.1",
+                    "--port",
+                    "5174",
+                ],
+                ROOT / "frontend",
+                "acceptance-frontend.log",
+            ),
+        ]
         for command, cwd, filename in commands:
             log = (artifacts / filename).open("w", encoding="utf-8")
             logs.append(log)
-            processes.append(subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=log,
-                                               creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0))
+            processes.append(
+                subprocess.Popen(
+                    command,
+                    cwd=cwd,
+                    env=env,
+                    stdout=log,
+                    stderr=log,
+                    creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
+                )
+            )
         wait_ready("http://127.0.0.1:8001/api/health")
         wait_ready("http://127.0.0.1:5174")
         test_files = sys.argv[1:] or ["tests/e2e/prospects-persistence.spec.ts"]
-        result = subprocess.run([node, str(ROOT / "frontend/node_modules/@playwright/test/cli.js"),
-                                 "test", *test_files], cwd=ROOT / "frontend", env=env,
-                                check=False)
+        result = subprocess.run(
+            [node, str(ROOT / "frontend/node_modules/@playwright/test/cli.js"), "test", *test_files],
+            cwd=ROOT / "frontend",
+            env=env,
+            check=False,
+        )
         return result.returncode
     finally:
         for process in processes:

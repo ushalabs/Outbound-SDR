@@ -7,32 +7,350 @@ import type { Page, Research, Source } from '@/lib/types'
 import { Button } from '@/components/ui/button'
 import { EmptyState, ErrorState, Loading } from '@/components/states'
 import { ProspectPicker } from '@/components/prospect-picker'
-import { Badge } from './Prospects'
+import { Badge } from '@/components/common'
 import { SemanticResearch } from '@/components/semantic-research'
 
-interface Statement { text: string; references: { source_id: string; quote: string }[] }
-export interface Findings { overview: Statement; industry: Statement | null; products_services: Statement[]; supported_facts: Statement[]; potential_challenges_hypotheses: string[]; qualification: string; qualification_reasoning: string; personalization_opportunities: Statement[]; suggested_outreach_angle_hypothesis: string; confidence: string; missing_information: string[] }
+interface Statement {
+  text: string
+  references: { source_id: string; quote: string }[]
+}
+export interface Findings {
+  overview: Statement
+  industry: Statement | null
+  products_services: Statement[]
+  supported_facts: Statement[]
+  potential_challenges_hypotheses: string[]
+  qualification: string
+  qualification_reasoning: string
+  personalization_opportunities: Statement[]
+  suggested_outreach_angle_hypothesis: string
+  confidence: string
+  missing_information: string[]
+}
 function Grounded({ statement }: { statement: Statement }) {
-  return <div className="grounded"><p>{statement.text}</p>{statement.references.map((r, i) => <a key={i} href={`#source-${r.source_id}`} className="citation" title={r.quote}>“{r.quote}” <span>Source ↗</span></a>)}</div>
+  return (
+    <div className="grounded">
+      <p>{statement.text}</p>
+      {statement.references.map((r, i) => (
+        <a key={i} href={`#source-${r.source_id}`} className="citation" title={r.quote}>
+          “{r.quote}” <span>Source ↗</span>
+        </a>
+      ))}
+    </div>
+  )
 }
 export function ResearchEvidence({ sources }: { sources: Source[] }) {
-  return <>{sources.map(s => <div className="source-card" id={`source-${s.id}`} key={s.id}><div className="card-title"><h3>{s.title}</h3><Badge value={s.kind}/></div>{s.url ? <a href={s.url} target="_blank" rel="noreferrer" className="source-link">{s.url}<ExternalLink size={12}/></a> : <p className="help">User-provided evidence; not independently verified.</p>}<p className="help">Retrieved {new Date(s.fetched_at).toLocaleString()}</p><details><summary>Inspect stored evidence</summary><p className="evidence expanded">{s.evidence}</p></details></div>)}</>
+  return (
+    <>
+      {sources.map((s) => (
+        <div className="source-card" id={`source-${s.id}`} key={s.id}>
+          <div className="card-title">
+            <h3>{s.title}</h3>
+            <Badge value={s.kind} />
+          </div>
+          {s.url ? (
+            <a href={s.url} target="_blank" rel="noreferrer" className="source-link">
+              {s.url}
+              <ExternalLink size={12} />
+            </a>
+          ) : (
+            <p className="help">User-provided evidence; not independently verified.</p>
+          )}
+          <p className="help">Retrieved {new Date(s.fetched_at).toLocaleString()}</p>
+          <details>
+            <summary>Inspect stored evidence</summary>
+            <p className="evidence expanded">{s.evidence}</p>
+          </details>
+        </div>
+      ))}
+    </>
+  )
 }
 export function ResearchContent({ research }: { research: Research }) {
   const f = research.findings as unknown as Findings | null
   if (!f) return null
-  return <><div className="card-title"><h2>Company intelligence</h2><Badge value={f.qualification}/></div><p className="help">AI summary with validated source quotes · {f.confidence} confidence · {research.model}</p><Grounded statement={f.overview}/>{f.industry && <><h3>Industry</h3><Grounded statement={f.industry}/></>}{f.products_services.length > 0 && <><h3>Products & services</h3>{f.products_services.map((s, i) => <Grounded key={i} statement={s}/>)}</>}<h3>Source-supported findings</h3>{f.supported_facts.map((s, i) => <Grounded key={i} statement={s}/>)}<div className="hypothesis-panel"><h3><FlaskConical size={15}/>AI hypotheses · not verified company problems</h3>{f.potential_challenges_hypotheses.map((s, i) => <p key={i}>{s}</p>)}<h3>Suggested angle · hypothesis</h3><p>{f.suggested_outreach_angle_hypothesis}</p></div><h3>Preliminary qualification</h3><p className="body-copy">{f.qualification_reasoning}</p>{f.personalization_opportunities.length > 0 && <><h3>Personalization opportunities</h3>{f.personalization_opportunities.map((s, i) => <Grounded key={i} statement={s}/>)}</>}{f.missing_information.length > 0 && <><h3>Missing information</h3><ul className="simple-list">{f.missing_information.map((s, i) => <li key={i}>{s}</li>)}</ul></>}</>
+  return (
+    <>
+      <div className="card-title">
+        <h2>Company intelligence</h2>
+        <Badge value={f.qualification} />
+      </div>
+      <p className="help">
+        AI summary with validated source quotes · {f.confidence} confidence · {research.model}
+      </p>
+      <Grounded statement={f.overview} />
+      {f.industry && (
+        <>
+          <h3>Industry</h3>
+          <Grounded statement={f.industry} />
+        </>
+      )}
+      {f.products_services.length > 0 && (
+        <>
+          <h3>Products & services</h3>
+          {f.products_services.map((s, i) => (
+            <Grounded key={i} statement={s} />
+          ))}
+        </>
+      )}
+      <h3>Source-supported findings</h3>
+      {f.supported_facts.map((s, i) => (
+        <Grounded key={i} statement={s} />
+      ))}
+      <div className="hypothesis-panel">
+        <h3>
+          <FlaskConical size={15} />
+          AI hypotheses · not verified company problems
+        </h3>
+        {f.potential_challenges_hypotheses.map((s, i) => (
+          <p key={i}>{s}</p>
+        ))}
+        <h3>Suggested angle · hypothesis</h3>
+        <p>{f.suggested_outreach_angle_hypothesis}</p>
+      </div>
+      <h3>Preliminary qualification</h3>
+      <p className="body-copy">{f.qualification_reasoning}</p>
+      {f.personalization_opportunities.length > 0 && (
+        <>
+          <h3>Personalization opportunities</h3>
+          {f.personalization_opportunities.map((s, i) => (
+            <Grounded key={i} statement={s} />
+          ))}
+        </>
+      )}
+      {f.missing_information.length > 0 && (
+        <>
+          <h3>Missing information</h3>
+          <ul className="simple-list">
+            {f.missing_information.map((s, i) => (
+              <li key={i}>{s}</li>
+            ))}
+          </ul>
+        </>
+      )}
+    </>
+  )
 }
 export default function ResearchPage() {
   const [params, setParams] = useSearchParams()
   const prospect = params.get('prospect') || ''
-  const [jobId, setJobId] = useState(params.get('run') || ''), [notes, setNotes] = useState(''), [manual, setManual] = useState(false)
+  const [jobId, setJobId] = useState(params.get('run') || ''),
+    [notes, setNotes] = useState(''),
+    [manual, setManual] = useState(false)
   const client = useQueryClient()
-  const history = useQuery({ queryKey: ['research', prospect], queryFn: () => api<Page<Research>>(`/research${prospect ? `?prospect_id=${prospect}` : ''}`), refetchInterval: q => q.state.data?.items.some(r => ['running', 'queued'].includes(r.status)) ? 2000 : false })
-  const detail = useQuery({ queryKey: ['research-detail', jobId], queryFn: () => api<Research>(`/research/${jobId}`), enabled: !!jobId, refetchInterval: q => q.state.data && ['running', 'queued'].includes(q.state.data.status) ? 2000 : false })
-  function queued(job: Research) { setJobId(job.id); void client.invalidateQueries({ queryKey: ['research'] }); void client.invalidateQueries({ queryKey: ['prospects'] }) }
-  const start = useMutation({ mutationFn: () => api<Research>('/research', { method: 'POST', body: JSON.stringify({ prospect_id: prospect, manual_notes: manual ? notes : null }) }), onSuccess: queued })
-  const rerun = useMutation({ mutationFn: () => api<Research>(`/research/${jobId}/rerun`, { method: 'POST' }), onSuccess: queued })
+  const history = useQuery({
+    queryKey: ['research', prospect],
+    queryFn: () => api<Page<Research>>(`/research${prospect ? `?prospect_id=${prospect}` : ''}`),
+    refetchInterval: (q) =>
+      q.state.data?.items.some((r) => ['running', 'queued'].includes(r.status)) ? 2000 : false,
+  })
+  const detail = useQuery({
+    queryKey: ['research-detail', jobId],
+    queryFn: () => api<Research>(`/research/${jobId}`),
+    enabled: !!jobId,
+    refetchInterval: (q) =>
+      q.state.data && ['running', 'queued'].includes(q.state.data.status) ? 2000 : false,
+  })
+  function queued(job: Research) {
+    setJobId(job.id)
+    void client.invalidateQueries({ queryKey: ['research'] })
+    void client.invalidateQueries({ queryKey: ['prospects'] })
+  }
+  const start = useMutation({
+    mutationFn: () =>
+      api<Research>('/research', {
+        method: 'POST',
+        body: JSON.stringify({ prospect_id: prospect, manual_notes: manual ? notes : null }),
+      }),
+    onSuccess: queued,
+  })
+  const rerun = useMutation({
+    mutationFn: () => api<Research>(`/research/${jobId}/rerun`, { method: 'POST' }),
+    onSuccess: queued,
+  })
   const running = detail.data && ['queued', 'running'].includes(detail.data.status)
-  return <><div className="page-heading"><div><div className="eyebrow">EVIDENCE BEFORE OUTREACH</div><h1>Company research</h1><p>Public sources. Clear provenance. Thoughtful hypotheses.</p></div><span className="subtle-chip"><Search size={14}/>Powered by Gemini</span></div><div className="workspace-grid"><aside className="card workspace-controls"><h2>Research a prospect</h2><ProspectPicker value={prospect} onChange={id => { setParams(id ? { prospect: id } : {}); setJobId('') }}/><label className="checkbox-line"><input type="checkbox" checked={manual} onChange={e => setManual(e.target.checked)}/>Use user-provided source notes</label>{manual && <label>Source notes<textarea rows={5} value={notes} onChange={e => setNotes(e.target.value)} placeholder="Include at least 50 characters of factual source information."/><small className="help">These are labeled user-provided, never independently verified.</small></label>}<Button className="w-full mt-4" disabled={!prospect || start.isPending || !!running || (manual && notes.trim().length < 50)} onClick={() => start.mutate()}><Play size={14}/>{start.isPending ? 'Queueing…' : 'Start research'}</Button>{start.error && <p role="alert" className="field-error">{start.error.message}</p>}<div className="section-divider"/><div className="card-title"><h3>Research history</h3><span className="help">{history.data?.total ?? '—'}</span></div>{history.isPending ? <Loading/> : history.error ? <ErrorState error={history.error} retry={() => void history.refetch()}/> : history.data.items.length === 0 ? <p className="help">No research runs yet.</p> : <div className="history-list">{history.data.items.map(job => <button className={`history-item ${jobId === job.id ? 'selected' : ''}`} key={job.id} onClick={() => setJobId(job.id)}><span>{new Date(job.created_at).toLocaleString()}<small>{job.stage}</small></span><Badge value={job.status}/></button>)}</div>}</aside><div className="workspace-main">{!jobId ? <section className="card"><EmptyState title="Research with a reason" description="Choose a prospect and start a run, or open a previous run to inspect its sources." to="/prospects" action="Manage prospects"/></section> : detail.isPending ? <section className="card"><Loading/></section> : detail.error ? <section className="card"><ErrorState error={detail.error} retry={() => void detail.refetch()}/></section> : detail.data && <><section className="card"><div className="card-title"><div><h2>Research run</h2><p className="help">{new Date(detail.data.created_at).toLocaleString()}</p></div><div className="actions"><Badge value={detail.data.status}/><Button size="sm" variant="outline" disabled={!!running || rerun.isPending} onClick={() => rerun.mutate()}><RefreshCw size={13}/>Re-run</Button></div></div>{rerun.error && <p role="alert" className="field-error">{rerun.error.message}</p>}{running && <div className="running-panel" role="status"><span className="pulse-dot"/><div><strong>{detail.data.stage}</strong><p className="help">Progress is saved in Neon. Queued jobs need the local worker running.</p></div></div>}{detail.data.status === 'failed' && <div role="alert" className="notice failure">{detail.data.error}</div>}{detail.data.status === 'completed' && <><div className="section-divider"/><ResearchContent research={detail.data}/><div className="dialog-actions"><Button asChild><Link to={`/outreach?prospect=${detail.data.prospect_id}`} >Compose from research<ArrowUpRight size={15}/></Link></Button></div></>}</section>{!!detail.data.sources?.length && <section className="card mt-5"><h2>Evidence & sources</h2><p className="help">Stored evidence used for this run. Citation quotes are checked against this text.</p><ResearchEvidence sources={detail.data.sources}/></section>}{detail.data.status === 'completed' && <SemanticResearch researchId={detail.data.id} prospectId={detail.data.prospect_id}/>}</>}</div></div></>
+  return (
+    <>
+      <div className="page-heading">
+        <div>
+          <div className="eyebrow">EVIDENCE BEFORE OUTREACH</div>
+          <h1>Company research</h1>
+          <p>Public sources. Clear provenance. Thoughtful hypotheses.</p>
+        </div>
+        <span className="subtle-chip">
+          <Search size={14} />
+          Powered by Gemini
+        </span>
+      </div>
+      <div className="workspace-grid">
+        <aside className="card workspace-controls">
+          <h2>Research a prospect</h2>
+          <ProspectPicker
+            value={prospect}
+            onChange={(id) => {
+              setParams(id ? { prospect: id } : {})
+              setJobId('')
+            }}
+          />
+          <label className="checkbox-line">
+            <input type="checkbox" checked={manual} onChange={(e) => setManual(e.target.checked)} />
+            Use user-provided source notes
+          </label>
+          {manual && (
+            <label>
+              Source notes
+              <textarea
+                rows={5}
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Include at least 50 characters of factual source information."
+              />
+              <small className="help">
+                These are labeled user-provided, never independently verified.
+              </small>
+            </label>
+          )}
+          <Button
+            className="w-full mt-4"
+            disabled={
+              !prospect || start.isPending || !!running || (manual && notes.trim().length < 50)
+            }
+            onClick={() => start.mutate()}
+          >
+            <Play size={14} />
+            {start.isPending ? 'Queueing…' : 'Start research'}
+          </Button>
+          {start.error && (
+            <p role="alert" className="field-error">
+              {start.error.message}
+            </p>
+          )}
+          <div className="section-divider" />
+          <div className="card-title">
+            <h3>Research history</h3>
+            <span className="help">{history.data?.total ?? '—'}</span>
+          </div>
+          {history.isPending ? (
+            <Loading />
+          ) : history.error ? (
+            <ErrorState error={history.error} retry={() => void history.refetch()} />
+          ) : history.data.items.length === 0 ? (
+            <p className="help">No research runs yet.</p>
+          ) : (
+            <div className="history-list">
+              {history.data.items.map((job) => (
+                <button
+                  className={`history-item ${jobId === job.id ? 'selected' : ''}`}
+                  key={job.id}
+                  onClick={() => setJobId(job.id)}
+                >
+                  <span>
+                    {new Date(job.created_at).toLocaleString()}
+                    <small>{job.stage}</small>
+                  </span>
+                  <Badge value={job.status} />
+                </button>
+              ))}
+            </div>
+          )}
+        </aside>
+        <div className="workspace-main">
+          {!jobId ? (
+            <section className="card">
+              <EmptyState
+                title="Research with a reason"
+                description="Choose a prospect and start a run, or open a previous run to inspect its sources."
+                to="/prospects"
+                action="Manage prospects"
+              />
+            </section>
+          ) : detail.isPending ? (
+            <section className="card">
+              <Loading />
+            </section>
+          ) : detail.error ? (
+            <section className="card">
+              <ErrorState error={detail.error} retry={() => void detail.refetch()} />
+            </section>
+          ) : (
+            detail.data && (
+              <>
+                <section className="card">
+                  <div className="card-title">
+                    <div>
+                      <h2>Research run</h2>
+                      <p className="help">{new Date(detail.data.created_at).toLocaleString()}</p>
+                    </div>
+                    <div className="actions">
+                      <Badge value={detail.data.status} />
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={!!running || rerun.isPending}
+                        onClick={() => rerun.mutate()}
+                      >
+                        <RefreshCw size={13} />
+                        Re-run
+                      </Button>
+                    </div>
+                  </div>
+                  {rerun.error && (
+                    <p role="alert" className="field-error">
+                      {rerun.error.message}
+                    </p>
+                  )}
+                  {running && (
+                    <div className="running-panel" role="status">
+                      <span className="pulse-dot" />
+                      <div>
+                        <strong>{detail.data.stage}</strong>
+                        <p className="help">
+                          Progress is saved in Neon. Queued jobs need the local worker running.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                  {detail.data.status === 'failed' && (
+                    <div role="alert" className="notice failure">
+                      {detail.data.error}
+                    </div>
+                  )}
+                  {detail.data.status === 'completed' && (
+                    <>
+                      <div className="section-divider" />
+                      <ResearchContent research={detail.data} />
+                      <div className="dialog-actions">
+                        <Button asChild>
+                          <Link to={`/outreach?prospect=${detail.data.prospect_id}`}>
+                            Compose from research
+                            <ArrowUpRight size={15} />
+                          </Link>
+                        </Button>
+                      </div>
+                    </>
+                  )}
+                </section>
+                {!!detail.data.sources?.length && (
+                  <section className="card mt-5">
+                    <h2>Evidence & sources</h2>
+                    <p className="help">
+                      Stored evidence used for this run. Citation quotes are checked against this
+                      text.
+                    </p>
+                    <ResearchEvidence sources={detail.data.sources} />
+                  </section>
+                )}
+                {detail.data.status === 'completed' && (
+                  <SemanticResearch
+                    researchId={detail.data.id}
+                    prospectId={detail.data.prospect_id}
+                  />
+                )}
+              </>
+            )
+          )}
+        </div>
+      </div>
+    </>
+  )
 }

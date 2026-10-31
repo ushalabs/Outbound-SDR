@@ -29,30 +29,72 @@ def generate_content(db: Session, data: OutreachGenerate):
     research = latest_research(db, prospect.company_id)
     if not research:
         raise AIError("Complete company research before generating outreach")
-    passages = retrieve(db, data.sender.value_proposition, prospect.company_id, limit=5, research_id=research.id)
+    passages = retrieve(
+        db, data.sender.value_proposition, prospect.company_id, limit=5, research_id=research.id
+    )
     if not passages:
         raise AIError("Generate current research embeddings before drafting outreach")
-    result = generate(OutreachContent, INSTRUCTION, jsonable_encoder({"tone": data.tone,
-        "contact_name": prospect.full_name, "job_title": prospect.job_title, "company": prospect.company.name,
-        "sender": data.sender.model_dump(), "retrieved_evidence": passages}))
+    result = generate(
+        OutreachContent,
+        INSTRUCTION,
+        jsonable_encoder(
+            {
+                "tone": data.tone,
+                "contact_name": prospect.full_name,
+                "job_title": prospect.job_title,
+                "company": prospect.company.name,
+                "sender": data.sender.model_dump(),
+                "retrieved_evidence": passages,
+            }
+        ),
+    )
     lookup = {}
     for passage in passages:
         lookup.setdefault(str(passage["source_id"]), []).append(normalize_text(passage["text"]))
     for ref in result.referenced_evidence:
         if not any(normalize_text(ref.quote) in text for text in lookup.get(ref.source_id, [])):
-            raise AIError("Draft citation validation failed; a personalized claim's quote is not in retrieved evidence")
-    context = jsonable_encoder({"references": [r.model_dump() for r in result.referenced_evidence],
-                               "retrieval": passages, "sender_context": data.sender.model_dump()})
-    result.full_email = "\n\n".join((result.opening, result.main_body, result.value_proposition,
-                                     result.cta, f"Best regards,\n{data.sender.name}\n{data.sender.company}"))
+            raise AIError(
+                "Draft citation validation failed; a personalized claim's quote is not in retrieved evidence"
+            )
+    context = jsonable_encoder(
+        {
+            "references": [r.model_dump() for r in result.referenced_evidence],
+            "retrieval": passages,
+            "sender_context": data.sender.model_dump(),
+        }
+    )
+    result.full_email = "\n\n".join(
+        (
+            result.opening,
+            result.main_body,
+            result.value_proposition,
+            result.cta,
+            f"Best regards,\n{data.sender.name}\n{data.sender.company}",
+        )
+    )
     return prospect, research, result, context
 
 
-def append_version(db: Session, draft: OutreachDraft, subject: str, body: str, cta: str,
-                   personalization: dict, context: dict, action: str):
+def append_version(
+    db: Session,
+    draft: OutreachDraft,
+    subject: str,
+    body: str,
+    cta: str,
+    personalization: dict,
+    context: dict,
+    action: str,
+):
     number = 1 if action == "created" else draft.current_version + 1
-    version = DraftVersion(draft_id=draft.id, version=number, subject=subject, body=body, cta=cta,
-                           personalization=personalization, context=context)
+    version = DraftVersion(
+        draft_id=draft.id,
+        version=number,
+        subject=subject,
+        body=body,
+        cta=cta,
+        personalization=personalization,
+        context=context,
+    )
     draft.current_version, draft.status = number, "pending"
     db.add(version)
     db.flush()
@@ -63,17 +105,35 @@ def append_version(db: Session, draft: OutreachDraft, subject: str, body: str, c
 
 def create_draft(db: Session, data: OutreachGenerate):
     prospect, research, result, context = generate_content(db, data)
-    draft = OutreachDraft(prospect_id=prospect.id, research_id=research.id, tone=data.tone,
-                          sender_context=data.sender.model_dump())
+    draft = OutreachDraft(
+        prospect_id=prospect.id,
+        research_id=research.id,
+        tone=data.tone,
+        sender_context=data.sender.model_dump(),
+    )
     db.add(draft)
     db.flush()
-    append_version(db, draft, result.subject, result.full_email, result.cta,
-                   {"opening": result.opening, "main_body": result.main_body,
-                    "value_proposition": result.value_proposition}, context, "created")
+    append_version(
+        db,
+        draft,
+        result.subject,
+        result.full_email,
+        result.cta,
+        {
+            "opening": result.opening,
+            "main_body": result.main_body,
+            "value_proposition": result.value_proposition,
+        },
+        context,
+        "created",
+    )
     db.commit()
     return draft
 
 
 def current_version(db, draft):
-    return db.scalar(select(DraftVersion).where(DraftVersion.draft_id == draft.id,
-                                               DraftVersion.version == draft.current_version))
+    return db.scalar(
+        select(DraftVersion).where(
+            DraftVersion.draft_id == draft.id, DraftVersion.version == draft.current_version
+        )
+    )

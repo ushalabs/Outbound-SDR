@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Generic, Literal, TypeVar
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -14,18 +14,39 @@ class GroundedStatement(BaseModel):
     references: list[EvidenceReference] = Field(min_length=1, max_length=4)
 
 
-class ResearchFindings(BaseModel):
-    overview: GroundedStatement
-    industry: GroundedStatement | None = None
-    products_services: list[GroundedStatement] = Field(max_length=8)
-    supported_facts: list[GroundedStatement] = Field(min_length=1, max_length=10)
+class EvidenceSelection(BaseModel):
+    source_id: str
+    passage_id: int = Field(ge=0)
+
+
+class SelectedStatement(BaseModel):
+    text: str = Field(min_length=1, max_length=2000)
+    references: list[EvidenceSelection] = Field(min_length=1, max_length=4)
+
+
+Statement = TypeVar("Statement")
+
+
+class CompanyFindings(BaseModel, Generic[Statement]):
+    overview: Statement
+    industry: Statement | None = None
+    products_services: list[Statement] = Field(max_length=8)
+    supported_facts: list[Statement] = Field(min_length=1, max_length=10)
     potential_challenges_hypotheses: list[str] = Field(max_length=5)
     qualification: Literal["qualified", "unqualified", "insufficient_information"]
     qualification_reasoning: str = Field(max_length=2000)
-    personalization_opportunities: list[GroundedStatement] = Field(max_length=5)
+    personalization_opportunities: list[Statement] = Field(max_length=5)
     suggested_outreach_angle_hypothesis: str = Field(max_length=2000)
     confidence: Literal["low", "medium", "high"]
     missing_information: list[str] = Field(max_length=10)
+
+
+class ResearchFindings(CompanyFindings[GroundedStatement]):
+    pass
+
+
+class ResearchAnalysis(CompanyFindings[SelectedStatement]):
+    pass
 
 
 class ResearchStart(BaseModel):

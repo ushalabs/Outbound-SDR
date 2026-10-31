@@ -34,13 +34,17 @@ def generate_embeddings(research_id: UUID, db: Db):
 def embedding_state(research_id: UUID, db: Db):
     if not db.get(Research, research_id):
         raise HTTPException(404, "Research not found")
-    rows = db.scalars(select(ResearchChunk).join(ResearchSource).where(
-        ResearchSource.research_id == research_id)).all()
-    return {"total": len(rows), "completed": sum(c.embedding_status == "completed" for c in rows),
-            "failed": sum(c.embedding_status == "failed" for c in rows),
-            "stale": sum(c.embedding_status == "stale" for c in rows),
-            "models": sorted({c.embedding_model for c in rows if c.embedding_model}),
-            "errors": list({c.embedding_error for c in rows if c.embedding_error})}
+    rows = db.scalars(
+        select(ResearchChunk).join(ResearchSource).where(ResearchSource.research_id == research_id)
+    ).all()
+    return {
+        "total": len(rows),
+        "completed": sum(c.embedding_status == "completed" for c in rows),
+        "failed": sum(c.embedding_status == "failed" for c in rows),
+        "stale": sum(c.embedding_status == "stale" for c in rows),
+        "models": sorted({c.embedding_model for c in rows if c.embedding_model}),
+        "errors": list({c.embedding_error for c in rows if c.embedding_error}),
+    }
 
 
 @router.post("/semantic/search")
@@ -55,6 +59,11 @@ def semantic_search(data: SemanticQuery, db: Db):
         company_id = prospect.company_id
     try:
         results = retrieve(db, data.query, company_id, data.limit)
-        return {"items": results, "message": None if results else "No current embeddings match this scope. Complete research and generate embeddings first."}
+        return {
+            "items": results,
+            "message": None
+            if results
+            else "No current embeddings match this scope. Complete research and generate embeddings first.",
+        }
     except AIError as exc:
         raise HTTPException(503, str(exc)) from exc

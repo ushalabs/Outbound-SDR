@@ -1,4 +1,32 @@
 import type { ActivityEvent } from './types'
-const labels: Record<string, string> = { 'prospect.created': 'Prospect added', 'prospect.updated': 'Prospect updated', 'prospect.deleted': 'Prospect deleted', 'prospect.bulk_status': 'Prospect status updated', 'prospect.bulk_do_not_contact': 'Prospect marked do not contact', 'research.queued': 'Research queued', 'research.completed': 'Research completed', 'research.failed': 'Research failed', 'research.interrupted': 'Research interrupted', 'research.embedded': 'Evidence embeddings saved', 'import.completed': 'CSV import completed', 'draft.created': 'Outreach draft created', 'draft.edited': 'Draft version saved', 'draft.regenerated': 'Draft regenerated', 'draft.approved': 'Draft approved', 'draft.rejected': 'Draft rejected', 'draft.archived': 'Draft archived', 'draft.reopened': 'Draft reopened for review', 'draft.exported': 'Approved draft exported' }
-export function eventLabel(event: string) { return labels[event] || event.replaceAll('.', ' ').replaceAll('_', ' ') }
-export function activityLink(event: ActivityEvent) { return event.entity_type === 'draft' ? `/approvals?draft=${event.entity_id}` : event.entity_type === 'research' ? `/research?run=${event.entity_id}` : '/prospects' }
+const labels: Record<string, string> = {
+  'prospect.created': 'Prospect added',
+  'prospect.updated': 'Prospect updated',
+  'prospect.deleted': 'Prospect deleted',
+  'prospect.bulk_status': 'Prospect status updated',
+  'prospect.bulk_do_not_contact': 'Prospect marked do not contact',
+  'research.queued': 'Research queued',
+  'research.completed': 'Research completed',
+  'research.failed': 'Research failed',
+  'research.interrupted': 'Research interrupted',
+  'research.embedded': 'Evidence embeddings saved',
+  'import.completed': 'CSV import completed',
+  'draft.created': 'Outreach draft created',
+  'draft.edited': 'Draft version saved',
+  'draft.regenerated': 'Draft regenerated',
+  'draft.approved': 'Draft approved',
+  'draft.rejected': 'Draft rejected',
+  'draft.archived': 'Draft archived',
+  'draft.reopened': 'Draft reopened for review',
+  'draft.exported': 'Approved draft exported',
+}
+export function eventLabel(event: string) {
+  return labels[event] || event.replaceAll('.', ' ').replaceAll('_', ' ')
+}
+export function activityLink(event: ActivityEvent) {
+  return event.entity_type === 'draft'
+    ? `/approvals?draft=${event.entity_id}`
+    : event.entity_type === 'research'
+      ? `/research?run=${event.entity_id}`
+      : '/prospects'
+}

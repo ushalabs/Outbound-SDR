@@ -1,15 +1,55 @@
 import { expect, test } from '@playwright/test'
-test('isolated worker processes live website research with Gemini and persists evidence', async ({ page }) => {
+import { readFile } from 'node:fs/promises'
+test('isolated worker processes live website research with Gemini and persists evidence', async ({
+  page,
+}) => {
   test.skip(process.env.ISOLATED_E2E !== '1', 'Run through the isolated Neon acceptance harness')
   test.setTimeout(300_000)
-  const response = await page.request.post('/api/prospects', { data: { company_name: 'Python Software Foundation', website_url: 'https://www.python.org/psf/', notes: 'Isolated live browser acceptance record' } })
+  const response = await page.request.post('/api/prospects', {
+    data: {
+      company_name: 'Python Software Foundation',
+      website_url: 'https://www.python.org/psf/',
+      notes: 'Isolated live browser acceptance record',
+    },
+  })
   expect(response.status()).toBe(201)
   const prospect = await response.json()
+  const consoleErrors: string[] = []
+  page.on('response', (response) => {
+    if (response.status() >= 400) consoleErrors.push(`${response.status()} ${response.url()}`)
+  })
+  page.on('pageerror', (error) => consoleErrors.push(error.message))
+  page.on('console', (message) => {
+    if (message.type() === 'error') consoleErrors.push(message.text())
+  })
+  await page.goto('/prospects')
+  await page.getByRole('button', { name: 'Import CSV', exact: true }).click()
+  await page.getByLabel('CSV file').setInputFiles({
+    name: 'controlled-acceptance.csv',
+    mimeType: 'text/csv',
+    buffer: Buffer.from(
+      'company_name,website_url,full_name\nPython Software Foundation,https://www.python.org/psf/,\nPython Software Foundation,https://www.python.org/psf/,Synthetic CSV acceptance contact',
+    ),
+  })
+  await page.getByRole('button', { name: 'Preview import', exact: true }).click()
+  await expect(page.getByText('2 rows · 1 ready · 1 duplicates · 0 invalid')).toBeVisible()
+  await page.getByRole('button', { name: 'Confirm import', exact: true }).click()
+  await expect(
+    page.getByText('Import saved: 1 imported, 1 duplicates, 0 invalid rows.'),
+  ).toBeVisible()
+  await page.getByRole('button', { name: 'Done', exact: true }).click()
   await page.goto(`/research?prospect=${prospect.id}`)
   await page.getByRole('button', { name: 'Start research', exact: true }).click()
   await Promise.race([
-    page.getByRole('heading', { name: 'Company intelligence', exact: true }).waitFor({ timeout: 150_000 }),
-    page.locator('.notice.failure').waitFor({ timeout: 150_000 }).then(async () => { throw new Error(await page.locator('.notice.failure').innerText()) }),
+    page
+      .getByRole('heading', { name: 'Company intelligence', exact: true })
+      .waitFor({ timeout: 150_000 }),
+    page
+      .locator('.notice.failure')
+      .waitFor({ timeout: 150_000 })
+      .then(async () => {
+        throw new Error(await page.locator('.notice.failure').innerText())
+      }),
   ])
   await expect(page.getByText('AI hypotheses · not verified company problems')).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Evidence & sources', exact: true })).toBeVisible()
@@ -19,21 +59,35 @@ test('isolated worker processes live website research with Gemini and persists e
   await page.reload()
   await expect(page.getByRole('button', { name: 'Start research', exact: true })).toBeVisible()
   await page.locator('.history-item').first().click()
-  await expect(page.getByRole('heading', { name: 'Company intelligence', exact: true })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { name: 'Company intelligence', exact: true }),
+  ).toBeVisible()
   expect(page.url()).toBe(location)
   await page.getByRole('button', { name: 'Generate embeddings', exact: true }).click()
-  await expect(page.getByRole('button', { name: 'Re-embed research', exact: true })).toBeVisible({ timeout: 90_000 })
-  await page.getByLabel('Semantic research query', { exact: true }).fill('Python community education and grants')
+  await expect(page.getByRole('button', { name: 'Re-embed research', exact: true })).toBeVisible({
+    timeout: 90_000,
+  })
+  await page
+    .getByLabel('Semantic research query', { exact: true })
+    .fill('Python community education and grants')
   await page.getByRole('button', { name: 'Search evidence', exact: true }).click()
   await expect(page.getByText(/Cosine similarity/).first()).toBeVisible({ timeout: 60_000 })
   await page.getByRole('link', { name: 'Compose from research', exact: true }).click()
   await page.getByLabel('Your name', { exact: true }).fill('Isolated QA reviewer')
   await page.getByLabel('Your company', { exact: true }).fill('Clearly synthetic QA sender')
-  await page.getByLabel('Your value proposition', { exact: true }).fill('An optional discussion about tools for community grant administration. No results or clients are claimed.')
+  await page
+    .getByLabel('Your value proposition', { exact: true })
+    .fill(
+      'An optional discussion about tools for community grant administration. No results or clients are claimed.',
+    )
   await page.getByRole('button', { name: 'Generate outreach', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'Draft studio', exact: true })).toBeVisible({ timeout: 90_000 })
+  await expect(page.getByRole('heading', { name: 'Draft studio', exact: true })).toBeVisible({
+    timeout: 90_000,
+  })
   const originalBody = await page.getByLabel('Email body', { exact: true }).inputValue()
-  await page.getByLabel('Email body', { exact: true }).fill(originalBody + '\n\nHuman-reviewed isolated acceptance note.')
+  await page
+    .getByLabel('Email body', { exact: true })
+    .fill(originalBody + '\n\nHuman-reviewed isolated acceptance note.')
   await page.getByRole('button', { name: 'Save new version', exact: true }).click()
   await expect(page.getByLabel('Draft version')).toHaveValue('2')
   await page.getByRole('button', { name: 'Regenerate new version', exact: true }).click()
@@ -48,7 +102,9 @@ test('isolated worker processes live website research with Gemini and persists e
   await page.getByRole('button', { name: 'Approve version 3', exact: true }).click()
   await page.getByRole('button', { name: 'Confirm approve', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Copy approved', exact: true })).toBeVisible()
-  await page.getByLabel('Email body', { exact: true }).fill('Human-reviewed second version for isolated acceptance.\n\n' + originalBody)
+  await page
+    .getByLabel('Email body', { exact: true })
+    .fill('Human-reviewed second version for isolated acceptance.\n\n' + originalBody)
   await page.getByRole('button', { name: 'Save new version', exact: true }).click()
   await expect(page.getByLabel('Draft version')).toHaveValue('4')
   await page.getByLabel('Reviewer note').fill('Please review the revised opening.')
@@ -62,9 +118,25 @@ test('isolated worker processes live website research with Gemini and persists e
   await page.getByRole('button', { name: 'Export draft', exact: true }).click()
   const download = await downloadPromise
   expect(download.suggestedFilename()).toContain('-v5.json')
+  const exported = JSON.parse(await readFile((await download.path())!, 'utf-8'))
+  expect(exported.delivery_status).toBe('not_sent')
+  expect(exported.version).toBe(5)
+  await page.screenshot({ path: '../artifacts/phase-9-approved-draft.png', fullPage: true })
   await expect(page.getByText('Please review the revised opening.', { exact: true })).toBeVisible()
   await page.getByRole('link', { name: /^Activity/ }).click()
-  await expect(page.locator('.activity-list').getByText('Draft approved', { exact: true }).first()).toBeVisible()
-  await expect(page.locator('.activity-list').getByText('Approved draft exported', { exact: true }).first()).toBeVisible()
-  await page.screenshot({ path: '../artifacts/phase-3-research.png', fullPage: true })
+  await expect(
+    page.locator('.activity-list').getByText('Draft approved', { exact: true }).first(),
+  ).toBeVisible()
+  await expect(
+    page.locator('.activity-list').getByText('Approved draft exported', { exact: true }).first(),
+  ).toBeVisible()
+  await page.getByRole('link', { name: 'Overview', exact: true }).click()
+  await expect(page.getByTestId('total-prospects')).toHaveText('2')
+  await expect(page.getByTestId('pending-approvals')).toHaveText('0')
+  await expect(page.getByText('1 approved drafts', { exact: true })).toBeVisible()
+  await page.reload()
+  await expect(page.getByTestId('total-prospects')).toHaveText('2')
+  await expect(page.getByTestId('pending-approvals')).toHaveText('0')
+  await page.screenshot({ path: '../artifacts/phase-9-dashboard-workflow.png', fullPage: true })
+  expect(consoleErrors).toEqual([])
 })

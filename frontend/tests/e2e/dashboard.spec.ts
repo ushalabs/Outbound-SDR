@@ -1,8 +1,10 @@
 import { expect, test } from '@playwright/test'
-test('dashboard shows genuine zero states, working ranges and responsive cards', async ({ page }) => {
+test('dashboard shows genuine zero states, working ranges and responsive cards', async ({
+  page,
+}) => {
   test.skip(process.env.ISOLATED_E2E === '1', 'Zero-state check targets the empty normal workspace')
   const errors: string[] = []
-  page.on('pageerror', error => errors.push(error.message))
+  page.on('pageerror', (error) => errors.push(error.message))
   await page.setViewportSize({ width: 1440, height: 1100 })
   await page.goto('/')
   await expect(page.getByTestId('total-prospects')).toHaveText('0')
@@ -18,7 +20,9 @@ test('dashboard shows genuine zero states, working ranges and responsive cards',
   await page.getByLabel('Dashboard date range').selectOption('30')
   await page.setViewportSize({ width: 390, height: 844 })
   await expect(page.getByTestId('total-prospects')).toHaveText('0')
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy()
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+  ).toBeTruthy()
   await page.screenshot({ path: '../artifacts/phase-7-dashboard-mobile.png', fullPage: true })
   expect(errors).toEqual([])
 })

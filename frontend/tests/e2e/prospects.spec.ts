@@ -3,11 +3,23 @@ test('prospect workspace supports forms, mapping and honest empty states', async
   await page.goto('/prospects')
   await expect(page.getByRole('heading', { name: 'Prospects', exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Add prospect', exact: true }).click()
+  for (let index = 0; index < 20; index++) {
+    await page.keyboard.press('Tab')
+    expect(
+      await page.getByRole('dialog').evaluate((dialog) => dialog.contains(document.activeElement)),
+    ).toBeTruthy()
+  }
   await page.getByRole('button', { name: 'Save prospect' }).click()
   await expect(page.getByText('Company name is required')).toBeVisible()
   await page.getByRole('button', { name: 'Cancel', exact: true }).click()
   await page.getByRole('button', { name: 'Import CSV', exact: true }).click()
-  await page.getByLabel('CSV file').setInputFiles({ name: 'fixture.csv', mimeType: 'text/csv', buffer: Buffer.from('company,website,name\nIsolated browser fixture,fixture.invalid,Synthetic browser fixture') })
+  await page.getByLabel('CSV file').setInputFiles({
+    name: 'fixture.csv',
+    mimeType: 'text/csv',
+    buffer: Buffer.from(
+      'company,website,name\nIsolated browser fixture,fixture.invalid,Synthetic browser fixture',
+    ),
+  })
   await expect(page.getByRole('heading', { name: 'Map columns' })).toBeVisible()
   await page.getByRole('button', { name: 'Preview import' }).click()
   await expect(page.getByText('1 rows · 1 ready · 0 duplicates · 0 invalid')).toBeVisible()
@@ -21,6 +33,8 @@ test('prospect workspace supports forms, mapping and honest empty states', async
   await page.reload()
   await expect(page.getByRole('button', { name: 'Add prospect', exact: true })).toBeVisible()
   await expect(page.getByText('Your next connection starts here')).toBeVisible()
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy()
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+  ).toBeTruthy()
   await page.screenshot({ path: '../artifacts/phase-2-prospects-mobile.png', fullPage: true })
 })

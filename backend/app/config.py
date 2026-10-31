@@ -8,8 +8,12 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=(ROOT / ".env", ROOT / ".env.local"), extra="ignore", populate_by_name=True,
-                                      hide_input_in_errors=True)
+    model_config = SettingsConfigDict(
+        env_file=(ROOT / ".env", ROOT / ".env.local"),
+        extra="ignore",
+        populate_by_name=True,
+        hide_input_in_errors=True,
+    )
     database_url: SecretStr
     direct_database_url: SecretStr
     gemini_api_key: SecretStr
@@ -18,8 +22,9 @@ class Settings(BaseSettings):
     embedding_dimensions: int = Field(default=768, ge=128, le=3072)
     app_env: str = Field(default="development", validation_alias=AliasChoices("APP_ENV", "ENVIRONMENT"))
     demo_mode: bool = False
-    test_schema: str | None = Field(default=None, validation_alias="SDR_TEST_SCHEMA",
-                                    pattern=r"^sdr_e2e_[a-f0-9]{32}$")
+    test_schema: str | None = Field(
+        default=None, validation_alias="SDR_TEST_SCHEMA", pattern=r"^sdr_e2e_[a-f0-9]{32}$"
+    )
     enable_real_email_sending: bool = Field(
         default=False, validation_alias=AliasChoices("ENABLE_REAL_EMAIL_SENDING", "ENABLE_REAL_SENDING")
     )

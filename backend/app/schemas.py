@@ -43,8 +43,17 @@ class ProspectInput(BaseModel):
     status: ProspectStatus = "new"
     do_not_contact: bool = False
 
-    @field_validator("email", "industry", "full_name", "job_title", "location", "linkedin_url", "source_url", "notes",
-                     mode="before")
+    @field_validator(
+        "email",
+        "industry",
+        "full_name",
+        "job_title",
+        "location",
+        "linkedin_url",
+        "source_url",
+        "notes",
+        mode="before",
+    )
     @classmethod
     def empty_as_none(cls, value):
         return None if isinstance(value, str) and not value.strip() else value
@@ -61,7 +70,11 @@ class ProspectInput(BaseModel):
 
     def identity_key(self) -> str:
         # Email stays separately unique; identity remains stable when an email is supplied later.
-        parts = (domain_of(self.website_url), (self.full_name or "").casefold(), (self.job_title or "").casefold())
+        parts = (
+            domain_of(self.website_url),
+            (self.full_name or "").casefold(),
+            (self.job_title or "").casefold(),
+        )
         return hashlib.sha256("|".join(parts).encode()).hexdigest()
 
 

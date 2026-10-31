@@ -17,8 +17,9 @@ def redact(message: str) -> str:
 
 class SafeFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
-        return json.dumps({"level": record.levelname, "logger": record.name,
-                           "message": redact(record.getMessage())})
+        return json.dumps(
+            {"level": record.levelname, "logger": record.name, "message": redact(record.getMessage())}
+        )
 
 
 def configure_logging() -> None:

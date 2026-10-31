@@ -8,7 +8,7 @@ from app.main import app
 
 
 def test_health():
-    with TestClient(app) as client:
+    with TestClient(app, base_url="http://127.0.0.1") as client:
         response = client.get("/api/health")
     assert response.status_code == 200
     assert response.json()["email_sending_enabled"] is False

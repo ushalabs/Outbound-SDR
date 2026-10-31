@@ -2,14 +2,16 @@ import { expect, test } from '@playwright/test'
 test('isolated Neon prospect persists after reload, then edits and deletes', async ({ page }) => {
   test.skip(process.env.ISOLATED_E2E !== '1', 'Run through the isolated Neon acceptance harness')
   const errors: string[] = []
-  page.on('pageerror', error => errors.push(error.message))
+  page.on('pageerror', (error) => errors.push(error.message))
   await page.goto('/prospects')
   await page.getByRole('button', { name: 'Add prospect', exact: true }).click()
   await page.getByLabel('Company name', { exact: true }).fill('Isolated E2E fixture')
   await page.getByLabel('Company website', { exact: true }).fill('https://fixture.invalid')
   await page.getByLabel('Contact name (if known)', { exact: true }).fill('Synthetic E2E contact')
   await page.getByRole('button', { name: 'Save prospect' }).click()
-  await expect(page.getByRole('button', { name: 'Isolated E2E fixture', exact: true })).toBeVisible()
+  await expect(
+    page.getByRole('button', { name: 'Isolated E2E fixture', exact: true }),
+  ).toBeVisible()
   await page.reload()
   await expect(page.getByText('Synthetic E2E contact', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Edit Synthetic E2E contact', exact: true }).click()

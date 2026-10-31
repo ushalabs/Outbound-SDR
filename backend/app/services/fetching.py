@@ -1,17 +1,19 @@
 """Small public-page fetcher. Resolves, validates and pins every connection's destination."""
+
 import http.client
 import ipaddress
+import json
 import socket
 import ssl
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from urllib.parse import urljoin, urlsplit
 from urllib.robotparser import RobotFileParser
 
 import certifi
 from bs4 import BeautifulSoup
 
-from app.schemas import normalize_url
+from app.schemas import domain_of, normalize_url
 
 USER_AGENT = "OutboundSDR/1.0 (local company research; robots-aware)"
 MAX_BYTES = 1_000_000
@@ -23,7 +25,9 @@ class FetchError(ValueError):
 
 def public_addresses(host: str, port: int) -> list[str]:
     try:
-        addresses = list(dict.fromkeys(row[4][0] for row in socket.getaddrinfo(host, port, type=socket.SOCK_STREAM)))
+        addresses = list(
+            dict.fromkeys(row[4][0] for row in socket.getaddrinfo(host, port, type=socket.SOCK_STREAM))
+        )
     except socket.gaierror as exc:
         raise FetchError("Website hostname could not be resolved") from exc
     if not addresses or any(not ipaddress.ip_address(address).is_global for address in addresses):
@@ -60,8 +64,15 @@ def request(url: str) -> tuple[int, str, str, str]:
         path = parsed.path or "/"
         if parsed.query:
             path += "?" + parsed.query
-        connection.request("GET", path, headers={"User-Agent": USER_AGENT, "Accept": "text/html,text/plain",
-                                                 "Accept-Encoding": "identity"})
+        connection.request(
+            "GET",
+            path,
+            headers={
+                "User-Agent": USER_AGENT,
+                "Accept": "text/html,text/plain",
+                "Accept-Encoding": "identity",
+            },
+        )
         response = connection.getresponse()
         if response.status in (301, 302, 303, 307, 308):
             target = response.getheader("Location")
@@ -103,6 +114,48 @@ class PageEvidence:
     title: str
     text: str
     company_name: str | None
+    companies: list[dict] = field(default_factory=list)
+
+
+def structured_companies(soup: BeautifulSoup, page_url: str) -> list[dict]:
+    """Read only explicit organization name/URL pairs, including public directory ItemLists."""
+    results, seen, nodes = [], set(), 0
+    stack = []
+    for script in soup.find_all("script", attrs={"type": "application/ld+json"})[:20]:
+        try:
+            stack.append(json.loads(script.get_text()))
+        except (ValueError, TypeError, RecursionError):
+            continue
+    while stack and len(results) < 20 and nodes < 2000:
+        item = stack.pop()
+        nodes += 1
+        if isinstance(item, list):
+            stack.extend(item[:200])
+        elif isinstance(item, dict):
+            kinds = item.get("@type", [])
+            kinds = [kinds] if isinstance(kinds, str) else kinds
+            if isinstance(kinds, list) and any(
+                kind in ("Organization", "Corporation", "LocalBusiness", "ProfessionalService")
+                for kind in kinds
+            ):
+                name, website = item.get("name"), item.get("url")
+                if isinstance(name, str) and isinstance(website, str) and name.strip():
+                    try:
+                        website = normalize_url(urljoin(page_url, website))
+                    except ValueError:
+                        continue
+                    key = domain_of(website)
+                    if key not in seen:
+                        seen.add(key)
+                        results.append(
+                            {
+                                "company_name": name.strip()[:200],
+                                "website_url": website,
+                                "evidence": f"Public structured organization metadata: {name.strip()} — {website}",
+                            }
+                        )
+            stack.extend(value for value in item.values() if isinstance(value, (dict, list)))
+    return results
 
 
 def fetch_page(url: str, redirects: int = 0) -> PageEvidence:
@@ -126,7 +179,7 @@ def fetch_page(url: str, redirects: int = 0) -> PageEvidence:
         policy.parse(robots.splitlines())
         if not policy.can_fetch("OutboundSDR", url):
             raise FetchError("Website robots.txt does not permit this page")
-        if (policy.crawl_delay("OutboundSDR") or policy.crawl_delay("*")):
+        if policy.crawl_delay("OutboundSDR") or policy.crawl_delay("*"):
             raise FetchError("Website requires a crawl delay; use manual source notes")
     status, html, content_type, final_url = request(url)
     if status in (301, 302, 303, 307, 308):
@@ -140,9 +193,10 @@ def fetch_page(url: str, redirects: int = 0) -> PageEvidence:
     title = soup.title.get_text(" ", strip=True)[:300] if soup.title else (parsed.hostname or "Source")
     site_name = soup.find("meta", attrs={"property": "og:site_name"})
     name = str(site_name.get("content", "")).strip()[:200] if site_name else None
+    companies = structured_companies(soup, final_url)
     for element in soup(["script", "style", "noscript", "nav", "footer", "header", "form", "svg"]):
         element.decompose()
     text = " ".join(soup.stripped_strings)[:40000]
     if len(text) < 50:
         raise FetchError("No sufficient readable evidence was found. Use user-provided source notes.")
-    return PageEvidence(url=final_url, title=title, text=text, company_name=name or None)
+    return PageEvidence(url=final_url, title=title, text=text, company_name=name or None, companies=companies)

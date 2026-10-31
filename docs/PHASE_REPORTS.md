@@ -28,7 +28,7 @@ Phase 0 commit: `6b3a223`.
 Backend: SQLAlchemy models and pooled engine; direct-connection Alembic; sanitized database errors;
 live `/api/system/database` status. Frontend: typed company/prospect/research/draft/version/event
 interfaces, live Neon status using TanStack Query and API error state.
-Database: migration `0001_core` creates 11 application tables under `sdr`, UUID keys, JSONB,
+Database: migration `0001_core` creates 10 application tables plus the Alembic version table under `sdr`, UUID keys, JSONB,
 vector(768), foreign keys, unique/status constraints and lookup/time indexes. `vector` extension installed.
 Before migration, both connections succeeded and the existing database had no application tables.
 No unrelated tables were modified. No ordinary application records were inserted.
@@ -205,3 +205,38 @@ explicitly and Ruff passed. Recharts callback typing was fixed before the passin
 Local Git commit uses required Phase 7 message; hash follows next entry.
 Known limitations: 924 kB combined frontend bundle warning; route splitting and remaining robustness,
 keyboard/contrast review and exhaustive acceptance belong to Phase 8. Next: Phase 8.
+
+## Phase 8 — PASS
+
+Phase 7 commit: `653a57e`.
+Backend: shared AI rate limits, cross-origin mutation/Host guards for the local operating model,
+transport limits and response headers; CSV headers parsed server-side (quoted commas supported),
+one-query preview duplicate lookup, concurrent company creation handling; read endpoints avoid write
+locks. Replaced deprecated DISTINCT ON usage with a row-number query. Embedding network/dimension
+failures are explicit. Interrupted worker recovery is independently tested. Frozen migration DDL
+reproduces exactly the 10 application tables in an isolated rolled-back schema.
+Research now asks Gemini to select stored source/passage IDs. The server attaches exact verbatim
+passages and validates them; unknown references get one correction attempt, then fail. No AI-invented
+quote can become stored evidence. Structured public directory organization metadata yields at most
+20 company candidates, with no people/email/phone extraction; unstructured names still need confirmation.
+Frontend: lazy routes/shared primitives reduce main JS to 334 kB and largest route to 419 kB, without
+the prior size warning. Radix dialogs trap focus/restore it; keyboard checks passed. Improved small-text
+size/contrast, disabled chart animations, added favicon and reduced-motion support, formatted owned
+source. Historical/unsaved draft review blocks have dedicated UI tests.
+Scripts: launcher validates dependencies, checks all three services and local HTTP readiness; added
+safe project-command-line-checked stop script. Both were actually executed successfully.
+Tests: first full backend run: 33 passed / 1 failed due to the migration test mistakenly counting
+Alembic's version table as an application table. Corrected assertion; full rerun: **34 passed**.
+After the source-passage change, targeted research tests: **4 passed** (real Gemini/Neon included).
+Final current unit suite: **22 passed**, 13 integration tests excluded in that unit-only run.
+Frontend: **5 Vitest tests passed**, TypeScript/build/ESLint passed, Ruff/format/pip check passed;
+both production-only and complete npm audit report **0 vulnerabilities**.
+Normal browser suite: **3 passed**, 3 isolated-only cases intentionally skipped. Isolated prospect
+persistence browser test: **1 passed**. Expanded real CSV/research/vector/draft/review/export/dashboard
+browser workflow: **1 passed** (1.5 minutes), including reloads and zero console/resource errors.
+One preceding end-to-end run completed all business steps but exposed a missing favicon 404; fixed it
+and reran successfully. Test schemas were cleaned; normal application data stayed empty.
+Local Git commit uses required Phase 8 message; hash follows next entry.
+Known limitations: local single-user operation, public URL/structured-directory discovery, provider
+quotas, fixed 768-dimensional migration, exact vector scans for the current small dataset, no sending.
+Next: Phase 9, repeatable local setup, final acceptance and complete release documentation.

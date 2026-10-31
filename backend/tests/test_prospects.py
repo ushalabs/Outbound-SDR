@@ -5,8 +5,11 @@ from app.schemas import ProspectInput, domain_of
 from app.services.fetching import FetchError, fetch_page, public_addresses
 from app.services.prospects import preview_csv
 
-FIXTURE = {"company_name": "Isolated fixture", "website_url": "https://fixture.invalid",
-           "full_name": "Synthetic fixture contact"}
+FIXTURE = {
+    "company_name": "Isolated fixture",
+    "website_url": "https://fixture.invalid",
+    "full_name": "Synthetic fixture contact",
+}
 
 
 def test_normalization_and_identity():
@@ -24,7 +27,9 @@ def test_private_destinations_blocked(monkeypatch, address):
 
 
 def test_robots_denial_and_redirect_limit(monkeypatch):
-    monkeypatch.setattr("app.services.fetching.request", lambda url: (200, "User-agent: *\nDisallow: /", "text/plain", url))
+    monkeypatch.setattr(
+        "app.services.fetching.request", lambda url: (200, "User-agent: *\nDisallow: /", "text/plain", url)
+    )
     with pytest.raises(FetchError, match="robots"):
         fetch_page("https://fixture.invalid")
     with pytest.raises(FetchError, match="redirect"):
@@ -52,14 +57,24 @@ def test_crud_bulk_and_csv(live_client):
     assert client.get("/api/prospects?search=fixture&sort=company&direction=asc").json()["total"] == 1
     assert client.get("/api/prospects?page=999").json()["items"] == []
     assert client.get("/api/prospects?page=0").status_code == 422
-    assert client.post("/api/prospects/bulk", json={"ids": [record["id"]], "action": "do_not_contact"}).json()["updated"] == 1
+    assert (
+        client.post("/api/prospects/bulk", json={"ids": [record["id"]], "action": "do_not_contact"}).json()[
+            "updated"
+        ]
+        == 1
+    )
     csv_text = "company,website,name\nIsolated fixture,fixture.invalid,Synthetic fixture contact\nSecond fixture,second.invalid,Another synthetic fixture\nBroken,,\n"
     preview = client.post("/api/imports/preview", json={"csv_text": csv_text}).json()
     assert preview["duplicates"] == 1 and len(preview["errors"]) == 1
-    imported = client.post("/api/imports/csv", json={"csv_text": csv_text, "filename": "fixture.csv", "confirm": True})
+    imported = client.post(
+        "/api/imports/csv", json={"csv_text": csv_text, "filename": "fixture.csv", "confirm": True}
+    )
     assert imported.status_code == 201, imported.text
     assert imported.json()["imported_rows"] == 1
-    assert client.post("/api/imports/csv", json={"csv_text": csv_text, "confirm": True}).json()["duplicates"] == 2
+    assert (
+        client.post("/api/imports/csv", json={"csv_text": csv_text, "confirm": True}).json()["duplicates"]
+        == 2
+    )
     assert len(client.get(f"/api/companies/{record['company']['id']}").json()["prospects"]) == 1
     assert client.delete(f"/api/prospects/{record['id']}").status_code == 422
     assert client.delete(f"/api/prospects/{record['id']}?confirm=true").status_code == 204
@@ -69,6 +84,7 @@ def test_crud_bulk_and_csv(live_client):
 @pytest.mark.integration
 def test_public_discovery_live():
     import os
+
     if os.getenv("RUN_LIVE_TESTS") != "1":
         pytest.skip("Explicit live check required")
     page = fetch_page("https://example.com")

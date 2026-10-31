@@ -1,4 +1,5 @@
 """Development-only generator for the initial frozen migration (not used at runtime)."""
+
 from pathlib import Path
 
 from sqlalchemy.dialects import postgresql

@@ -1,4 +1,5 @@
 """Isolated SDR schema. Frozen DDL, never touches unrelated schemas."""
+
 from pathlib import Path
 
 from alembic import op
@@ -17,4 +18,6 @@ def upgrade():
 
 
 def downgrade():
-    raise RuntimeError("Automatic destructive downgrades are disabled. Restore an isolated test schema explicitly.")
+    raise RuntimeError(
+        "Automatic destructive downgrades are disabled. Restore an isolated test schema explicitly."
+    )
