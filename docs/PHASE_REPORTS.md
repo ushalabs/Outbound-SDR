@@ -94,3 +94,22 @@ Local Git commit uses required Phase 3 message; hash follows next entry.
 Limitations: source citations establish textual provenance, not independent verification of website claims;
 AI summaries/qualification still require human review. Worker must be running. No browser/site auth bypass.
 Next: Phase 4, real embeddings and company-scoped semantic retrieval.
+
+## Phase 4 — PASS
+
+Phase 3 commit: `f9bf18c`.
+Backend: live Google embedding model capability check, real normalized 768-dimensional embeddings,
+finite/count/dimension validation, pgvector cosine retrieval with current-research and company scope,
+source attribution, model/state tracking and explicit failed re-embedding state (old vectors cleared).
+The existing environment has no EMBEDDING_MODEL, so the application selects `gemini-embedding-001`,
+which was returned by the provider model list. `.env` is unchanged.
+Frontend: embedding status/action and semantic passage search within research detail.
+Database: existing vector column used; no schema changes. Dataset is small, so exact cosine scanning
+is the appropriate policy. HNSW should be considered when current chunk count exceeds 1,000.
+Tests so far: real embedding + scoped semantic retrieval + source attribution + failure-clears-vector
+test passed against isolated Neon; returned dimension was 768. Build, lint and Ruff passed.
+SQLAlchemy 2.1 emits a non-failing DISTINCT ON deprecation warning; current <3 dependency supports it.
+Browser acceptance with real public website, Gemini research, live embeddings and pgvector retrieval
+passed (1 browser test, 50.8 seconds). Evidence and cosine similarity appeared in the frontend;
+the dedicated test schema was removed. No simulated success was used.
+Local Git commit uses required Phase 4 message; hash follows next entry. Next: Phase 5, outreach drafting.

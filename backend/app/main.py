@@ -11,6 +11,7 @@ from app.logging_config import configure_logging
 from app.middleware import external_request_limits
 from app.routes.prospects import router as prospect_router
 from app.routes.research import router as research_router
+from app.routes.semantic import router as semantic_router
 from app.routes.system import router as system_router
 
 
@@ -27,6 +28,7 @@ app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173", "http
 app.include_router(system_router)
 app.include_router(prospect_router)
 app.include_router(research_router)
+app.include_router(semantic_router)
 app.middleware("http")(external_request_limits)
 
 
