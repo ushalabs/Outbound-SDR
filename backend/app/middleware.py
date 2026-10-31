@@ -9,7 +9,7 @@ history = defaultdict(deque)
 
 async def external_request_limits(request: Request, call_next):
     path = request.url.path
-    limit = 10 if path == "/api/discovery/preview" or path.startswith("/api/research") else None
+    limit = 10 if path == "/api/discovery/preview" or path.startswith(("/api/research", "/api/outreach")) else None
     if request.method == "POST" and limit:
         key = (request.client.host if request.client else "local", path)
         queue = history[key]

@@ -113,3 +113,23 @@ Browser acceptance with real public website, Gemini research, live embeddings an
 passed (1 browser test, 50.8 seconds). Evidence and cosine similarity appeared in the frontend;
 the dedicated test schema was removed. No simulated success was used.
 Local Git commit uses required Phase 4 message; hash follows next entry. Next: Phase 5, outreach drafting.
+
+## Phase 5 — PASS
+
+Phase 4 commit: `145cd29`.
+Backend: company-scoped semantic evidence retrieval feeds real Gemini outreach generation, with required
+sender identity/value proposition, three tones, checked citations, immutable draft versions, editing,
+regeneration, optimistic version checks and pending-review defaults. Do-not-contact prospects are blocked.
+Frontend: sender context, tone, research readiness, saved drafts, subject/body editor, preview, history,
+regeneration and quote provenance. Sender context is retained locally in the browser, never provider keys.
+Database: existing outreach/version/approval-event/activity tables used; no schema changes.
+Tests so far: real generation with two distinct isolated research contexts passed; citations map to each
+source, bodies differ, edits preserve v1, regeneration creates v3, persistence and opt-out checks passed.
+Build, ESLint, Vitest (3 passed) and Ruff passed. Browser sequence initially failed because the populated
+textarea's implicit label included its contents. Explicit accessible names fixed it; the rerun passed
+(1 browser test, 1.7 minutes), covering real research, embeddings, semantic retrieval, generation, editing,
+v3 regeneration, v1 immutability and reload persistence. Dedicated schema cleaned afterward.
+Email assembly now preserves readable paragraph breaks using validated generated sections and the
+supplied sender signature. Source evidence and human-edited status remain visible.
+No mail transport, credentials or sending endpoint exists.
+Local Git commit uses required Phase 5 message; hash follows next entry. Next: Phase 6, approval workflow.

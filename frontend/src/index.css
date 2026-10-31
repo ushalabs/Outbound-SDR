@@ -9,9 +9,8 @@
 :root { font-family: 'Segoe UI', Inter, system-ui, sans-serif; color: #161b26; background: #f8f9fb; font-synthesis: none; text-rendering: optimizeLegibility; }
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 360px; }
-button, input, select, textarea { font: inherit; }
+@layer base { button, input, select, textarea { font: inherit; } a { color: inherit; text-decoration: none; } }
 button, a { -webkit-tap-highlight-color: transparent; }
-a { color: inherit; text-decoration: none; }
 button { cursor: pointer; }
 .app-frame { display: flex; min-height: 100vh; }
 .sidebar { width: 88px; background: #241315; position: fixed; inset: 0 auto 0 0; display: flex; align-items: center; flex-direction: column; padding: 26px 12px 20px; z-index: 30; color: #c7b6b8; }
@@ -54,3 +53,4 @@ label { font-size:12px; color:#344054; font-weight:500; }label>input,label>selec
 @media(max-width:1050px) { .workspace-grid { grid-template-columns:260px minmax(0,1fr); gap:16px; } }
 @media(max-width:800px) { .workspace-grid { grid-template-columns:1fr; }.workspace-controls { padding:20px; }.history-list { max-height:230px; overflow:auto; } }
 .embedding-controls { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:18px 0; flex-wrap:wrap; }.semantic-form { display:flex; align-items:center; gap:10px; }.semantic-form input { flex:1; min-width:0; }@media(max-width:600px) { .semantic-form { flex-wrap:wrap; }.semantic-form input { flex-basis:100%; } }
+.editor-toolbar { display:flex; align-items:center; justify-content:space-between; gap:15px; border-top:1px solid #eaecf0; border-bottom:1px solid #eaecf0; padding:14px 0; margin:20px 0; }.editor-toolbar select { max-width:200px; font-size:12px; }.segmented { display:flex; gap:3px; background:#f2f4f7; padding:3px; border-radius:8px; }.segmented button { border:0; border-radius:6px; padding:6px 12px; font-size:11px; background:transparent; color:#667085; }.segmented button.selected { background:#fff; color:#344054; box-shadow:0 1px 3px #10182815; }.email-editor { display:grid; gap:20px; }.email-editor textarea { line-height:1.85; resize:vertical; }.email-preview { padding:20px 8px; min-height:330px; }.email-preview small { font-size:9px; letter-spacing:1.4px; color:#98a2b3; }.email-preview>p { white-space:pre-wrap; font-size:13px; color:#475467; line-height:1.9; }.editor-actions { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:17px 0; flex-wrap:wrap; }.provenance { padding-top:18px; margin-top:15px; border-top:1px solid #eaecf0; }

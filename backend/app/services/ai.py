@@ -4,7 +4,7 @@ from typing import TypeVar
 import httpx
 from google import genai
 from google.genai import errors, types
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from app.config import get_settings
 from app.logging_config import redact
@@ -48,5 +48,7 @@ def generate(schema: type[T], instruction: str, evidence: dict) -> T:
     except errors.APIError as exc:
         reason = redact(exc.message or "Provider rejected the request")[:1200]
         raise AIError(f"Gemini request failed (HTTP {exc.code}, {exc.status}): {reason}") from exc
+    except ValidationError as exc:
+        raise AIError("Gemini response failed local structured-output validation; no successful result saved") from exc
     except (TimeoutError, OSError, httpx.HTTPError) as exc:
         raise AIError("Gemini could not be reached or timed out") from exc
