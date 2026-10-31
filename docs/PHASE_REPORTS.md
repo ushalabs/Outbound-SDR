@@ -240,3 +240,29 @@ Local Git commit uses required Phase 8 message; hash follows next entry.
 Known limitations: local single-user operation, public URL/structured-directory discovery, provider
 quotas, fixed 768-dimensional migration, exact vector scans for the current small dataset, no sending.
 Next: Phase 9, repeatable local setup, final acceptance and complete release documentation.
+
+## Phase 9 — PASS
+
+Phase 8 commit: `0a6aa5d`.
+Backend/frontend/database: final application is locally functional. No new schema or product features
+were added in this phase. Root README now documents features, architecture/stack, all ten tables,
+configuration/aliases, private model override, Neon/vector setup, exact commands, worker, tests,
+troubleshooting, provenance safeguards, approval-only behavior, limitations and future manual GitHub sync.
+`docs/LOCAL_ACCEPTANCE_REPORT.md` maps all 25 required acceptance steps to executed evidence.
+Actual setup was rerun: pinned Python dependencies + editable install + clean npm ci passed; npm audit
+reported 0 vulnerabilities. Scoped stop and readiness-checked start scripts passed; three services run.
+Final full backend command: **35 passed in 178.24 seconds**, including real external services.
+Final fast checks: **22 backend unit tests passed**, 13 live tests intentionally excluded; **5 frontend
+tests passed**; Ruff/format, ESLint, TypeScript/build and pip check passed. No frontend size warning.
+Final normal browser suite: **3 passed**, 3 isolated-only cases intentionally skipped.
+Final real isolated CSV → research → embeddings/search → draft/edit/regenerate → approve/reject/reopen
+→ export/activity/dashboard → reload workflow: **1 passed in 1.4 minutes**, zero console/resource errors.
+Its generated schema was removed. Final catalog checks found no test schemas and zero records in all
+ten ordinary application tables. Live Neon reports vector 0.8.6 and Alembic `0001_core (head)`.
+Original `.env` remains 559 bytes with its original 2026-10-31 23:33:28 PKT modification time.
+Environment files, dependencies and artifacts are ignored/untracked; credential scans passed.
+No outbound email, Git remote contact, push/PR, remote CI or deployment occurred.
+Local Git commit: required `phase-9: finalize local release and documentation`; its exact hash is
+recorded by the subsequent documentation-only audit commit so the phase commit can be identified
+without a self-referential hash. Known limitations are listed in the acceptance report and README.
+Next phase: none. All ten phase gates passed.
