@@ -9,6 +9,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.config import get_settings
 from app.logging_config import configure_logging
 from app.middleware import external_request_limits
+from app.routes.analytics import router as analytics_router
 from app.routes.approvals import router as approval_router
 from app.routes.outreach import router as outreach_router
 from app.routes.prospects import router as prospect_router
@@ -33,6 +34,7 @@ app.include_router(research_router)
 app.include_router(semantic_router)
 app.include_router(outreach_router)
 app.include_router(approval_router)
+app.include_router(analytics_router)
 app.middleware("http")(external_request_limits)
 
 

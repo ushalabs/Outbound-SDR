@@ -182,3 +182,26 @@ Resume command from `backend` (requires available Gemini quota; creates/cleans a
 
 This command repeats the accepted isolated workflow. Free quota remains limited and complete workflows
 consume multiple genuine generation requests.
+
+## Phase 7 — PASS
+
+Phase 6 commit: `0e4e64d`.
+Backend: PostgreSQL-derived cohort totals, research coverage, qualification, current draft statuses,
+draft generation/decision daily trends, research completion, prospect status and company industry
+distributions, recent activity and actual average approval duration. Date ranges use Asia/Karachi,
+validate 1–366 days and compare to an equally sized prior period. A zero denominator yields no growth
+claim. Empty calendar buckets contain real zero event counts, not synthetic activity.
+Frontend: reference-inspired dark sidebar, red hero KPI, shared top analytical panel, upper-right
+multi-series draft/decision chart, wide lower-left pipeline chart, review/turnaround cards, status donut,
+company industries and persisted recent activity. Working preset/custom ranges, links, tooltips,
+loading/error/retry states, honest zero states and responsive layouts.
+Database: read-only aggregates over existing indexed tables; no migration.
+Tests: isolated Neon analytics test passed, verifying empty data, prospect/research/approval changes,
+industry counts, actual daily series, turnaround and date filters. Build and ESLint passed. Normal
+empty-dashboard desktop/mobile browser test passed; separate isolated populated-chart/reload/filter
+test passed. Screenshots of all three states were inspected. Normal application data stays empty.
+Follow-up lint caught loop-variable binding in the Phase 6 correction test fixture; bound its defaults
+explicitly and Ruff passed. Recharts callback typing was fixed before the passing build.
+Local Git commit uses required Phase 7 message; hash follows next entry.
+Known limitations: 924 kB combined frontend bundle warning; route splitting and remaining robustness,
+keyboard/contrast review and exhaustive acceptance belong to Phase 8. Next: Phase 8.

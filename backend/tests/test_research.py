@@ -58,7 +58,7 @@ def test_citation_correction_is_bounded_and_revalidated(live_client, monkeypatch
     db = app.dependency_overrides[get_db]()
     for correction_succeeds in (True, False):
         calls = []
-        def respond(schema, instruction, data):
+        def respond(schema, instruction, data, calls=calls, correction_succeeds=correction_succeeds):
             calls.append(instruction)
             quote = notes if correction_succeeds and len(calls) == 2 else "An invented quote unsupported by any evidence"
             return findings(data["sources"][0]["source_id"], quote)
