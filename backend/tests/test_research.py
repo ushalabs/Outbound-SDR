@@ -50,6 +50,29 @@ def test_research_failure_is_durable(live_client, monkeypatch):
 
 
 @pytest.mark.integration
+def test_citation_correction_is_bounded_and_revalidated(live_client, monkeypatch):
+    client = live_client
+    prospect = client.post("/api/prospects", json={"company_name": "Isolated correction fixture",
+                           "website_url": "https://correction.invalid"}).json()
+    notes = "This is explicitly synthetic fixture evidence about community workshops and education programs."
+    db = app.dependency_overrides[get_db]()
+    for correction_succeeds in (True, False):
+        calls = []
+        def respond(schema, instruction, data):
+            calls.append(instruction)
+            quote = notes if correction_succeeds and len(calls) == 2 else "An invented quote unsupported by any evidence"
+            return findings(data["sources"][0]["source_id"], quote)
+        monkeypatch.setattr("app.services.research.generate", respond)
+        queued = client.post("/api/research", json={"prospect_id": prospect["id"], "manual_notes": notes}).json()
+        job = db.scalar(select(Research).where(Research.id == queued["id"]))
+        run_research(db, job)
+        assert len(calls) == 2
+        assert job.status == ("completed" if correction_succeeds else "failed")
+        if not correction_succeeds:
+            assert job.findings is None and "citation validation" in job.error
+
+
+@pytest.mark.integration
 def test_live_public_research_and_gemini(live_client):
     if os.getenv("RUN_LIVE_TESTS") != "1":
         pytest.skip("Live provider access explicitly required")

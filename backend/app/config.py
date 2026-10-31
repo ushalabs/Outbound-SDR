@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=ROOT / ".env", extra="ignore", populate_by_name=True,
+    model_config = SettingsConfigDict(env_file=(ROOT / ".env", ROOT / ".env.local"), extra="ignore", populate_by_name=True,
                                       hide_input_in_errors=True)
     database_url: SecretStr
     direct_database_url: SecretStr

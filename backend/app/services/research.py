@@ -75,7 +75,18 @@ def run_research(db: Session, job: Research):
     def validate(data):
         stage("Validating source references")
         sources, result = data
-        validate_grounding(result, sources)
+        try:
+            validate_grounding(result, sources)
+        except AIError:
+            stage("Correcting unverified citations")
+            result = generate(ResearchFindings, INSTRUCTION + "\nYour previous response failed citation validation. "
+                "Use only source IDs provided below. Each quote must be copied as an exact contiguous substring; "
+                "do not paraphrase quotes, combine separate sentences, add ellipses or change punctuation. "
+                "Prefer fewer, shorter, strongly supported statements.",
+                {"company": job.input_snapshot["company_name"], "previous_output": result.model_dump(mode="json"),
+                 "sources": [{"source_id": str(source.id), "kind": source.kind, "text": source.evidence[:24000]}
+                             for source in sources]})
+            validate_grounding(result, sources)
         return result
 
     try:

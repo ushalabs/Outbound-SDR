@@ -26,7 +26,7 @@ export function ResearchContent({ research }: { research: Research }) {
 export default function ResearchPage() {
   const [params, setParams] = useSearchParams()
   const prospect = params.get('prospect') || ''
-  const [jobId, setJobId] = useState(''), [notes, setNotes] = useState(''), [manual, setManual] = useState(false)
+  const [jobId, setJobId] = useState(params.get('run') || ''), [notes, setNotes] = useState(''), [manual, setManual] = useState(false)
   const client = useQueryClient()
   const history = useQuery({ queryKey: ['research', prospect], queryFn: () => api<Page<Research>>(`/research${prospect ? `?prospect_id=${prospect}` : ''}`), refetchInterval: q => q.state.data?.items.some(r => ['running', 'queued'].includes(r.status)) ? 2000 : false })
   const detail = useQuery({ queryKey: ['research-detail', jobId], queryFn: () => api<Research>(`/research/${jobId}`), enabled: !!jobId, refetchInterval: q => q.state.data && ['running', 'queued'].includes(q.state.data.status) ? 2000 : false })

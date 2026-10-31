@@ -133,3 +133,52 @@ Email assembly now preserves readable paragraph breaks using validated generated
 supplied sender signature. Source evidence and human-edited status remain visible.
 No mail transport, credentials or sending endpoint exists.
 Local Git commit uses required Phase 5 message; hash follows next entry. Next: Phase 6, approval workflow.
+
+## Phase 6 — PASS
+
+Phase 5 commit: `6b60323`.
+Backend: validated pending/approved/rejected/archived transitions, version-locked decisions, optional
+notes, explicit reopen-as-new-version, approved-only JSON export with `delivery_status: not_sent`,
+opt-out guards, status counts, search/filter/pagination and persisted activity feed.
+Frontend: review queue, live pending badge, version editor, source/research panel, approve/reject/archive
+confirmations, regenerate/reopen, notes, immutable audit history, approved copy/export, Activity page.
+Review actions are blocked while editing unsaved text or looking at a historical version.
+Database: approval events reference exact version UUIDs; no schema changes.
+Tests so far: live isolated state-machine/audit/export test passed, covering invalid transitions,
+editing resets approval, rejected-note retention, reopening and stale versions. Ruff/build/lint passed.
+Build now reports a non-failing chunk-size warning; route splitting will be addressed during hardening.
+Full real browser workflow reached valid public research, embeddings and semantic retrieval, then failed
+at outreach generation because Gemini returned HTTP 429 RESOURCE_EXHAUSTED. Provider reported:
+`generate_content_free_tier_requests`, daily limit 20, resolved model `gemini-3.6-flash` (configured alias
+is `gemini-3.5-flash`), retry after approximately 11h19m at the failed request on November 1, 2026 PKT.
+The error appeared honestly in the UI. Browser approval/export/activity actions were NOT reached in
+this run. The failed test's dedicated schema was removed; normal data was untouched.
+No new model, paid tier, key, mock provider or fake success was substituted.
+Resume: the user authorized switching to the higher-allowance free Flash-Lite model. Live model listing,
+model access and structured generation succeeded for `gemini-3.5-flash-lite`. An ignored `.env.local`
+selects it; original `.env` is unchanged. Google documents its free tier; exact project-specific daily
+limits are shown in AI Studio, so 500 RPD is not claimed as independently confirmed.
+Research gained one bounded citation-correction attempt with the same strict validator. Isolated tests
+verified both correction success and rejection after a second invalid result. No unsupported findings save.
+The complete live browser workflow then passed (2.3 minutes): source research, embeddings, semantic search,
+outreach, editing/regeneration, old versions, approve v3, edit resets approval, reject v4 with note,
+reopen v5, approve v5, download approved draft, genuine activity rows. Dedicated schema cleaned afterward.
+One earlier run completed all review actions but hit a test selector matching a hidden activity-filter
+option; the assertion was scoped to visible event rows. Another run safely rejected an invalid citation;
+the bounded correction was added and tested before the final passing run.
+Local Git commit uses required Phase 6 message; hash follows next entry. Next: Phase 7 analytics/dashboard.
+Final non-AI verification: `scripts/test-local.ps1` passed (13 backend unit tests, 9 integration tests
+deselected; Ruff; 3 Vitest tests; TypeScript/production build; ESLint). A 505.85 kB frontend chunk-size
+warning remains for Phase 8. The launcher was rerun with current code so Phase 6 is locally reviewable.
+Final normal browser suite passed: 2 passed, 2 isolated-only tests intentionally skipped.
+Working-tree credential scan passed; `.env` is untracked. Live database status confirms 0 ordinary
+companies/prospects and approval counts are all 0. Backend/frontend/worker are running locally.
+
+Resume command from `backend` (requires available Gemini quota; creates/cleans a dedicated test schema):
+
+```powershell
+..\.venv\Scripts\python.exe scripts\run_browser_acceptance.py tests/e2e/research-live.spec.ts
+```
+
+This command repeats the accepted isolated workflow. Free quota remains limited and complete workflows
+consume multiple genuine generation requests.
