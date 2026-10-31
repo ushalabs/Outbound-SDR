@@ -10,6 +10,7 @@ test('health and six workspace routes are available', async ({ page, request }) 
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   }
   await expect(page.getByText('Backend online')).toBeVisible()
+  await expect(page.getByText('Neon connected')).toBeVisible()
   expect(errors).toEqual([])
   await page.screenshot({ path: '../artifacts/phase-0-desktop.png', fullPage: true })
 })

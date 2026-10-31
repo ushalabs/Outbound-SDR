@@ -21,3 +21,23 @@ Known limitations: database and AI verification belong to subsequent phases; wor
 describe the foundation state. Frontend toolchain upgraded to Vite 8, Vitest 5 and ESLint 10;
 minimatch 11 override removes the audited transitive denial-of-service vulnerability.
 Next phase: Phase 1, Neon schema and backend persistence.
+
+## Phase 1 — PASS
+
+Phase 0 commit: `6b3a223`.
+Backend: SQLAlchemy models and pooled engine; direct-connection Alembic; sanitized database errors;
+live `/api/system/database` status. Frontend: typed company/prospect/research/draft/version/event
+interfaces, live Neon status using TanStack Query and API error state.
+Database: migration `0001_core` creates 11 application tables under `sdr`, UUID keys, JSONB,
+vector(768), foreign keys, unique/status constraints and lookup/time indexes. `vector` extension installed.
+Before migration, both connections succeeded and the existing database had no application tables.
+No unrelated tables were modified. No ordinary application records were inserted.
+Tests executed: all 6 pytest tests passed, including 2 live Neon tests; create/read, unique constraint,
+foreign key, status constraint and vector dimensions verified. Test schema DDL/data rolled back;
+test verified its schema no longer exists. Ruff passed after fixing imports/typed dependencies.
+Frontend build and lint passed; live browser navigation/Neon status check passed (1 Playwright test).
+Migration ran successfully twice (second run idempotent through Alembic).
+Local Git commit: `phase-1: implement neon database and core backend` (hash follows next entry).
+Limitations: 768 dimensions are frozen in the initial schema; another dimension requires a new migration.
+No vector index is needed for an empty dataset; retrieval/index policy belongs to Phase 4.
+Automatic destructive downgrades are disabled. Next: Phase 2, prospect management and ingestion.
