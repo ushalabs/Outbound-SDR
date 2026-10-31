@@ -262,7 +262,7 @@ ten ordinary application tables. Live Neon reports vector 0.8.6 and Alembic `000
 Original `.env` remains 559 bytes with its original 2026-10-31 23:33:28 PKT modification time.
 Environment files, dependencies and artifacts are ignored/untracked; credential scans passed.
 No outbound email, Git remote contact, push/PR, remote CI or deployment occurred.
-Local Git commit: required `phase-9: finalize local release and documentation`; its exact hash is
-recorded by the subsequent documentation-only audit commit so the phase commit can be identified
-without a self-referential hash. Known limitations are listed in the acceptance report and README.
+Local Git commit: `ef574f0` — `phase-9: finalize local release and documentation`.
+A subsequent documentation-only audit commit records that hash without a self-reference.
+Known limitations are listed in the acceptance report and README.
 Next phase: none. All ten phase gates passed.

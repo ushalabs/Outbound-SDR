@@ -100,7 +100,7 @@ Browser cases:
 | 6 | `0e4e64d` | Human approval |
 | 7 | `653a57e` | Live analytics/red dashboard |
 | 8 | `0a6aa5d` | Hardening/end-to-end verification |
-| 9 | Pending acceptance completion | Final local release/documentation |
+| 9 | `ef574f0` | Final local release/documentation — PASS |
 
 No Git remote was contacted, push/PR created, CI configured or deployment attempted.
 
