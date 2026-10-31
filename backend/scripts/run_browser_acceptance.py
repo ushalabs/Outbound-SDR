@@ -45,6 +45,7 @@ def main():
                "ISOLATED_E2E": "1"}
         commands = [([sys.executable, "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8001"],
                      ROOT / "backend", "acceptance-backend.log"),
+                    ([sys.executable, "-m", "app.worker"], ROOT / "backend", "acceptance-worker.log"),
                     ([node, str(ROOT / "frontend/node_modules/vite/bin/vite.js"), "--host", "127.0.0.1", "--port", "5174"],
                      ROOT / "frontend", "acceptance-frontend.log")]
         for command, cwd, filename in commands:
@@ -54,8 +55,9 @@ def main():
                                                creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0))
         wait_ready("http://127.0.0.1:8001/api/health")
         wait_ready("http://127.0.0.1:5174")
+        test_files = sys.argv[1:] or ["tests/e2e/prospects-persistence.spec.ts"]
         result = subprocess.run([node, str(ROOT / "frontend/node_modules/@playwright/test/cli.js"),
-                                 "test", "tests/e2e/prospects-persistence.spec.ts"], cwd=ROOT / "frontend", env=env,
+                                 "test", *test_files], cwd=ROOT / "frontend", env=env,
                                 check=False)
         return result.returncode
     finally:

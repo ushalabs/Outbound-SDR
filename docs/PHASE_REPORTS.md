@@ -69,3 +69,28 @@ through its harness). Final mobile empty-state screenshot also inspected after l
 Local Git commit uses the required Phase 2 message; hash follows next entry.
 Known limitations: public-URL discovery only, no broad web search provider; no authenticated-site scraping.
 Research/outreach row actions lead to subsequent-phase workspaces. Next: Phase 3, grounded Gemini research.
+
+## Phase 3 — PASS
+
+Phase 2 commit: `4f95c00`.
+Backend: durable queued/running/completed/failed research jobs; separate local worker claims jobs with
+row locks, marks interrupted runs failed after 10 minutes, retains evidence/history and supports explicit
+reruns. Public evidence retrieval and explicitly labeled manual notes feed LangChain Runnable stages:
+retrieve, Gemini structured analysis, citation validation. Every source reference and quotation is checked
+against stored evidence. Hypotheses and missing information are separate from supported statements.
+Frontend: prospect search/selection, queue/start, real stage polling, reruns, history, detailed intelligence,
+quote citations, evidence inspector, hypothesis panels and outreach navigation.
+Database: existing research/source/chunk/activity tables; no schema migration. Research and chunk text
+persist, no embeddings are claimed yet. Successful reruns invalidate previous company vectors.
+Tests: 3 research pytest tests passed (citation rejection, durable provider failure/rerun, real public
+Python Software Foundation retrieval + Gemini + Neon persistence). Ruff, build and ESLint passed.
+Isolated browser/worker E2E: 1 passed (46.6 seconds), including real queued processing, source evidence,
+reload and historical results. Its dedicated schema was removed afterward. Screenshot visually inspected.
+Provider access: configured `gemini-3.5-flash` is available; structured connectivity check passed after
+a transient 503. Full schema initially returned 400; simplified provider decoder constraints fixed this,
+while all local Pydantic limits and source-quote checks remain enforced. No model/key was replaced.
+Available embedding models were listed by the live provider API.
+Local Git commit uses required Phase 3 message; hash follows next entry.
+Limitations: source citations establish textual provenance, not independent verification of website claims;
+AI summaries/qualification still require human review. Worker must be running. No browser/site auth bypass.
+Next: Phase 4, real embeddings and company-scoped semantic retrieval.

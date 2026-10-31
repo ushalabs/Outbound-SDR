@@ -28,4 +28,6 @@ def configure_logging() -> None:
     root.handlers = [handler]
     root.setLevel(logging.INFO)
     logging.getLogger("httpx").setLevel(logging.WARNING)
+    logging.getLogger("httpx2").setLevel(logging.WARNING)
     logging.getLogger("google").setLevel(logging.WARNING)
+    logging.getLogger("google_genai").setLevel(logging.WARNING)

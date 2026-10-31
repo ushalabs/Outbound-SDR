@@ -13,9 +13,10 @@ if (-not $SkipMigrations -and (Test-Path -LiteralPath (Join-Path $projectRoot 'b
     try { & $pythonPath -m alembic upgrade head; if ($LASTEXITCODE) { throw 'Migration failed' } } finally { Pop-Location }
 }
 $backendProcess = Start-Process -FilePath $pythonPath -ArgumentList @('-m', 'uvicorn', 'app.main:app', '--host', '127.0.0.1', '--port', '8000') -WorkingDirectory (Join-Path $projectRoot 'backend') -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $artifactPath 'backend.log') -RedirectStandardError (Join-Path $artifactPath 'backend-error.log')
+$workerProcess = Start-Process -FilePath $pythonPath -ArgumentList @('-m', 'app.worker') -WorkingDirectory (Join-Path $projectRoot 'backend') -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $artifactPath 'worker.log') -RedirectStandardError (Join-Path $artifactPath 'worker-error.log')
 $nodePath = (Get-Command node).Source
 $vitePath = Join-Path $projectRoot 'frontend\node_modules\vite\bin\vite.js'
 $frontendProcess = Start-Process -FilePath $nodePath -ArgumentList @(('"' + $vitePath + '"'), '--host', '127.0.0.1', '--port', '5173', '--strictPort') -WorkingDirectory (Join-Path $projectRoot 'frontend') -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $artifactPath 'frontend.log') -RedirectStandardError (Join-Path $artifactPath 'frontend-error.log')
-@{ backend = $backendProcess.Id; frontend = $frontendProcess.Id } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $artifactPath 'local-processes.json')
-Write-Host "Backend PID: $($backendProcess.Id); frontend PID: $($frontendProcess.Id)"
+@{ backend = $backendProcess.Id; frontend = $frontendProcess.Id; worker = $workerProcess.Id } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $artifactPath 'local-processes.json')
+Write-Host "Backend PID: $($backendProcess.Id); frontend PID: $($frontendProcess.Id); worker PID: $($workerProcess.Id)"
 Write-Host 'Open http://127.0.0.1:5173 and http://127.0.0.1:8000/docs'
