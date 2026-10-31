@@ -6,5 +6,5 @@ import { fileURLToPath, URL } from 'node:url'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
-  server: { strictPort: true, proxy: { '/api': 'http://127.0.0.1:8000' } },
+  server: { strictPort: true, proxy: { '/api': process.env.BACKEND_URL || 'http://127.0.0.1:8000' } },
 })

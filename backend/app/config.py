@@ -1,7 +1,7 @@
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import AliasChoices, Field, SecretStr, field_validator
+from pydantic import AliasChoices, Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     embedding_dimensions: int = Field(default=768, ge=128, le=3072)
     app_env: str = Field(default="development", validation_alias=AliasChoices("APP_ENV", "ENVIRONMENT"))
     demo_mode: bool = False
+    test_schema: str | None = Field(default=None, validation_alias="SDR_TEST_SCHEMA",
+                                    pattern=r"^sdr_e2e_[a-f0-9]{32}$")
     enable_real_email_sending: bool = Field(
         default=False, validation_alias=AliasChoices("ENABLE_REAL_EMAIL_SENDING", "ENABLE_REAL_SENDING")
     )
@@ -42,6 +44,12 @@ class Settings(BaseSettings):
         if value:
             raise ValueError("Real email sending must remain disabled for this application")
         return value
+
+    @model_validator(mode="after")
+    def isolated_schema_only_in_test(self):
+        if self.test_schema and self.app_env != "test":
+            raise ValueError("SDR_TEST_SCHEMA is permitted only with APP_ENV=test")
+        return self
 
 
 @lru_cache

@@ -20,6 +20,8 @@ def database_url(direct: bool = False):
 
 engine = create_engine(database_url(), pool_pre_ping=True, pool_size=5, max_overflow=5,
                        connect_args={"connect_timeout": 10}, hide_parameters=True)
+if get_settings().test_schema:
+    engine = engine.execution_options(schema_translate_map={"sdr": get_settings().test_schema})
 SessionLocal = sessionmaker(engine, expire_on_commit=False)
 
 

@@ -41,3 +41,31 @@ Local Git commit: `phase-1: implement neon database and core backend` (hash foll
 Limitations: 768 dimensions are frozen in the initial schema; another dimension requires a new migration.
 No vector index is needed for an empty dataset; retrieval/index policy belongs to Phase 4.
 Automatic destructive downgrades are disabled. Next: Phase 2, prospect management and ingestion.
+
+## Phase 2 — PASS
+
+Phase 1 commit: `04c1df9`.
+Backend: complete prospect create/read/update/confirmed delete, searchable/filtered/sorted/paged lists,
+bulk qualification and do-not-contact, company/contact detail, validated CSV mapping/preview/import,
+row errors, duplicate detection, import jobs and activity records. Imports use savepoints within one
+transaction. File limit 2 MB / 1,000 rows. Public-URL company discovery has confirmation before import;
+it never invents contact data. A page title is explicitly labeled as a name suggestion for user confirmation.
+Fetcher checks robots, public addresses, pinned DNS destinations, redirect policies, TLS, response type,
+size and time limits. Discovery has bounded URL counts and per-minute request limits.
+Frontend: full Prospects table, search/filter/sort/pagination, selection/bulk actions, add/edit dialogs,
+confirmed deletion, company details, CSV mapping/preview/results, discovery/evidence preview,
+source links and research/outreach navigation. Responsive screenshots visually inspected.
+Database changes: no schema migration; writes use existing companies/prospects/import/activity tables.
+Tests: initial full pytest run had 15 passed / 1 TLS failure. Fixed by using certifi's CA bundle with
+certificate verification enabled. Rerun of all 10 prospect/fetch tests passed including live public
+example.com evidence and isolated real Neon CRUD/import/deduplication. Earlier 6 foundation/database
+tests also passed. Vitest 3 passed, build and lint passed, Ruff passed. Normal browser suite: 2 passed.
+Separate isolated Neon browser harness: 1 passed, covering create, reload persistence, edit, company
+detail and confirmed deletion. Its dedicated schema was dropped after server shutdown; normal
+application data stayed empty. No synthetic fixtures were committed to ordinary application tables.
+Final full regression: 16 pytest tests passed including live Neon and public fetch; Ruff passed.
+Normal browser rerun: 2 passed, 1 intentionally skipped (the isolated persistence test, separately passed
+through its harness). Final mobile empty-state screenshot also inspected after loading completed.
+Local Git commit uses the required Phase 2 message; hash follows next entry.
+Known limitations: public-URL discovery only, no broad web search provider; no authenticated-site scraping.
+Research/outreach row actions lead to subsequent-phase workspaces. Next: Phase 3, grounded Gemini research.
