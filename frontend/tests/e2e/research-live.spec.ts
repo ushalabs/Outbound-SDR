@@ -35,8 +35,9 @@ test('isolated worker processes live website research with Gemini and persists e
   await expect(page.getByText('2 rows · 1 ready · 1 duplicates · 0 invalid')).toBeVisible()
   await page.getByRole('button', { name: 'Confirm import', exact: true }).click()
   await expect(
-    page.getByText('Import saved: 1 imported, 1 duplicates, 0 invalid rows.'),
+    page.getByRole('heading', { name: 'Imported 1 prospect', exact: true }),
   ).toBeVisible()
+  await expect(page.getByText('Skipped 1 duplicate', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Done', exact: true }).click()
   await page.goto(`/research?prospect=${prospect.id}`)
   await page.getByRole('button', { name: 'Start research', exact: true }).click()
@@ -80,8 +81,8 @@ test('isolated worker processes live website research with Gemini and persists e
     .fill(
       'An optional discussion about tools for community grant administration. No results or clients are claimed.',
     )
-  await page.getByRole('button', { name: 'Generate outreach', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'Draft studio', exact: true })).toBeVisible({
+  await page.getByRole('button', { name: 'Write email', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Email draft', exact: true })).toBeVisible({
     timeout: 90_000,
   })
   const originalBody = await page.getByLabel('Email body', { exact: true }).inputValue()

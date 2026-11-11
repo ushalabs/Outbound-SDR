@@ -20,7 +20,7 @@ test('prospect workspace supports forms, mapping and honest empty states', async
       'company,website,name\nIsolated browser fixture,fixture.invalid,Synthetic browser fixture',
     ),
   })
-  await expect(page.getByRole('heading', { name: 'Map columns' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Match CSV columns' })).toBeVisible()
   await page.getByRole('button', { name: 'Preview import' }).click()
   await expect(page.getByText('1 rows · 1 ready · 0 duplicates · 0 invalid')).toBeVisible()
   // Preview does not persist the synthetic fixture in normal application data.

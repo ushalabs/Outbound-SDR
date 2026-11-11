@@ -51,16 +51,12 @@ export function DraftEditor({
     <>
       <div className="card-title">
         <div>
-          <h2>Draft studio</h2>
+          <h2>Email draft</h2>
           <p className="help">
             {draft.company_name}
-            {draft.contact_name ? ` · ${draft.contact_name}` : ' · Company team'}
+            {draft.contact_name ? ` · ${draft.contact_name}` : ''}
           </p>
-          <p className="help">
-            {historical
-              ? 'Historical version · read only'
-              : 'Every save creates a new review version'}
-          </p>
+          {historical && <p className="help">Previous version · read only</p>}
         </div>
         <Badge value={draft.status} />
       </div>
@@ -147,10 +143,7 @@ export function DraftEditor({
       </div>
       {references.length > 0 && (
         <div className="provenance">
-          <h3>Personalization provenance</h3>
-          <p className="help">
-            AI citations are checked against retrieved passages. Human edits need manual review.
-          </p>
+          <h3>Sources used</h3>
           {references.map((ref, i) => {
             const source = retrieval.find((r) => r.source_id === ref.source_id)
             return (
@@ -247,7 +240,7 @@ export default function OutreachPage() {
     <>
       <div className="page-heading">
         <div>
-          <h1>Outreach studio</h1>
+          <h1>Outreach</h1>
         </div>
         <Button asChild variant="outline">
           <Link to="/approvals">
@@ -258,7 +251,7 @@ export default function OutreachPage() {
       </div>
       <div className="workspace-grid">
         <aside className="card workspace-controls">
-          <h2>Compose with context</h2>
+          <h2>New email</h2>
           <ProspectPicker
             value={prospect}
             onChange={(id) => {
@@ -275,10 +268,8 @@ export default function OutreachPage() {
             </select>
           </label>
           <div className="section-divider" />
-          <h3>Sender & business context</h3>
-          <p className="help">
-            Supply your actual identity and offer. No sender claims are invented.
-          </p>
+          <h3>Your business</h3>
+          <p className="help">Describe the service you want to offer this prospect</p>
           {(
             [
               ['name', 'Your name'],
@@ -301,7 +292,7 @@ export default function OutreachPage() {
               value={sender.value_proposition}
               maxLength={2000}
               onChange={(e) => setSender({ ...sender, value_proposition: e.target.value })}
-              placeholder="What can you honestly offer this prospect?"
+              placeholder="What service do you offer, and who is it for?"
             />
           </label>
           <Button
@@ -310,7 +301,7 @@ export default function OutreachPage() {
             onClick={() => generate.mutate()}
           >
             <FileText size={14} />
-            {generate.isPending ? 'Generating grounded draft…' : 'Generate outreach'}
+            {generate.isPending ? 'Writing email…' : 'Write email'}
           </Button>
           {generate.error && (
             <p className="field-error" role="alert">
@@ -370,13 +361,12 @@ export default function OutreachPage() {
           {generate.isPending ? (
             <div className="state" role="status">
               <FileText />
-              <h3>Composing from your research</h3>
-              <p>Retrieving company evidence and drafting with Gemini.</p>
+              <h3>Writing email…</h3>
             </div>
           ) : !draftId ? (
             <EmptyState
               title="No draft selected"
-              description="Select a prospect, provide your sender context and generate a grounded first draft."
+              description="Choose a prospect and describe your offer to write an introductory email."
             />
           ) : detail.isPending ? (
             <Loading />

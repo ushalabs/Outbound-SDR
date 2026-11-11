@@ -54,6 +54,20 @@ const defaults: FormValues = {
   status: 'new',
   do_not_contact: false,
 }
+const fieldLabels: Record<keyof FormValues, string> = {
+  company_name: 'Company name',
+  website_url: 'Company website',
+  full_name: 'Contact name',
+  email: 'Email address',
+  job_title: 'Job title',
+  industry: 'Industry',
+  location: 'Location',
+  linkedin_url: 'LinkedIn profile',
+  source_url: 'Source link',
+  notes: 'Notes',
+  status: 'Prospect status',
+  do_not_contact: 'Do not contact',
+}
 function ProspectForm({
   prospect,
   close,
@@ -218,42 +232,65 @@ function CsvDialog({ close, saved }: { close: () => void; saved: () => void }) {
   }
   return (
     <Modal title="Import prospects from CSV" close={close}>
-      <p className="help">
-        Up to 1,000 rows / 2 MB. Required fields: company_name and website_url. Preview validates
-        every row before importing.
-      </p>
-      <label className="file-picker">
-        <FileUp size={25} />
-        <span>{filename || 'Choose a CSV file'}</span>
-        <input
-          aria-label="CSV file"
-          type="file"
-          accept=".csv"
-          onChange={(e) => void loadFile(e.target.files?.[0])}
-        />
-      </label>
-      {fileError && <p className="field-error">{fileError}</p>}
-      {Object.keys(mapping).length > 0 && (
+      {!result && (
         <>
-          <h3>Map columns</h3>
-          <div className="form-grid">
-            {Object.entries(mapping).map(([header, field]) => (
-              <label key={header}>
-                {header}
-                <select
-                  value={field}
-                  onChange={(e) => {
-                    setMapping({ ...mapping, [header]: e.target.value })
-                    preview.reset()
-                  }}
-                >
-                  <option value="ignore">Ignore column</option>
-                  {Object.keys(defaults).map((key) => (
-                    <option key={key}>{key}</option>
-                  ))}
-                </select>
-              </label>
-            ))}
+          <p className="help">Up to 1,000 rows / 2 MB</p>
+          <label className="file-picker">
+            <FileUp size={25} />
+            <span>Choose a CSV file</span>
+            <span className="file-chooser">
+              <span className="file-chooser-button">Choose file</span>
+              <span>{filename || 'No file chosen'}</span>
+            </span>
+            <input
+              className="sr-only"
+              aria-label="CSV file"
+              type="file"
+              accept=".csv"
+              onChange={(e) => void loadFile(e.target.files?.[0])}
+            />
+          </label>
+          {fileError && <p className="field-error">{fileError}</p>}
+        </>
+      )}
+      {!result && Object.keys(mapping).length > 0 && (
+        <>
+          <h3>Match CSV columns</h3>
+          <div className="column-mapping">
+            <table>
+              <thead>
+                <tr>
+                  <th>Column in your CSV</th>
+                  <th>Save as</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(mapping).map(([header, field]) => (
+                  <tr key={header}>
+                    <td>
+                      <code>{header}</code>
+                    </td>
+                    <td>
+                      <select
+                        aria-label={`Save ${header} as`}
+                        value={field}
+                        onChange={(e) => {
+                          setMapping({ ...mapping, [header]: e.target.value })
+                          preview.reset()
+                        }}
+                      >
+                        <option value="ignore">Skip this column</option>
+                        {(Object.keys(defaults) as (keyof FormValues)[]).map((key) => (
+                          <option key={key} value={key}>
+                            {fieldLabels[key]}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
           <Button
             className="mt-4"
@@ -287,7 +324,7 @@ function CsvDialog({ close, saved }: { close: () => void; saved: () => void }) {
                   <tr key={row.row}>
                     <td>{row.row}</td>
                     <td>{row.data.company_name}</td>
-                    <td>{row.data.full_name || 'No contact supplied'}</td>
+                    <td>{row.data.full_name || row.data.email || 'Company prospect'}</td>
                     <td>{row.duplicate ? 'Duplicate · skipped' : 'Ready'}</td>
                   </tr>
                 ))}
@@ -310,9 +347,21 @@ function CsvDialog({ close, saved }: { close: () => void; saved: () => void }) {
         </p>
       )}
       {result && (
-        <div role="status" className="notice success">
-          Import saved: {result.imported_rows} imported, {result.duplicates} duplicates,{' '}
-          {result.errors.length} invalid rows.
+        <div role="status" className="import-result">
+          <h3>
+            Imported {result.imported_rows} {result.imported_rows === 1 ? 'prospect' : 'prospects'}
+          </h3>
+          <p className="help">{filename}</p>
+          {result.duplicates > 0 && (
+            <p className="help">
+              Skipped {result.duplicates} {result.duplicates === 1 ? 'duplicate' : 'duplicates'}
+            </p>
+          )}
+          {result.errors.map((error) => (
+            <p key={error.row} className="field-error">
+              Row {error.row}: {error.message}
+            </p>
+          ))}
         </div>
       )}
       <div className="dialog-actions">
@@ -485,8 +534,14 @@ function CompanyDialog({ id, close }: { id: string; close: () => void }) {
           {query.data.prospects.map((p) => (
             <div className="list-item" key={p.id}>
               <span>
-                {p.full_name || 'Contact not identified'}
-                <small>{p.job_title || p.email || 'Company-level prospect'}</small>
+                {p.full_name || p.email || query.data.company.name}
+                <small>
+                  {p.full_name
+                    ? p.email || p.job_title
+                    : p.email
+                      ? 'Company email'
+                      : 'Company prospect'}
+                </small>
               </span>
               <Badge value={p.status} />
             </div>
@@ -712,8 +767,14 @@ export default function ProspectsPage() {
                           {(p.full_name || p.company.name).slice(0, 2).toUpperCase()}
                         </span>
                         <div>
-                          <strong>{p.full_name || 'Contact not identified'}</strong>
-                          <small>{p.email || p.job_title || 'Company-level prospect'}</small>
+                          <strong>{p.full_name || p.email || p.company.name}</strong>
+                          <small>
+                            {p.full_name
+                              ? p.email || p.job_title
+                              : p.email
+                                ? 'Company email'
+                                : 'Company prospect'}
+                          </small>
                           {p.do_not_contact && <span className="opt-out">Do not contact</span>}
                         </div>
                       </div>

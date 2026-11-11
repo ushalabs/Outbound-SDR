@@ -90,3 +90,7 @@ for neutral backgrounds and retaining an existing sidebar.
 ## Follow-up cleanup — 11 November 2026
 
 Removed the colored outer backdrop and frame. Removed redundant captions and page introductions across all six pages. Restored the application logo and browser favicon to red, with a versioned favicon URL. The chart accents remain. All six routes passed desktop and phone viewport checks without overflow or page errors after the cleanup.
+
+CSV import now separates the original file header from the field it saves into, using readable destination names. Completed imports show a compact result and Done action. Contacts without a supplied personal name display their existing business email or company name. Outreach uses direct email-writing labels and retains evidence references under Sources used. Future email generation is instructed to use plain business language while preserving evidence and uncertainty rules; existing saved drafts are unchanged.
+
+Validation: 22 backend unit tests and 5 frontend tests passed, along with backend lint, frontend lint and production build. Chrome checks against the normal database covered existing contact display, CSV mapping edits and preview, mobile mapping layout, and an existing saved email. These follow-up checks made no database writes or Gemini requests.

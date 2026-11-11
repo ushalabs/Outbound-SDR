@@ -17,7 +17,12 @@ may describe the sender's capabilities. Do not claim inferred problems are verif
 Reference actual supported company facts with source_id and verbatim quotes from retrieved evidence.
 Use the requested tone. Do not invent a person's name when contact_name is absent; address the company team.
 Compose full_email from opening, main_body, value_proposition, cta and the supplied sender signature.
-No tracking links, fabricated testimonials or sending claims. The output is a draft for human review."""
+No tracking links, fabricated testimonials or sending claims. The output is a draft for human review.
+Use plain business language and one clear question. Avoid stock openings such as 'I hope this email
+finds you well', hype, AI jargon and exaggerated praise. Paraphrase a relevant company fact in the
+email; keep verbatim evidence quotes in the reference metadata rather than copying long passages.
+Do not paste internal research or testing caveats into the recipient-facing email. Express uncertainty
+with a conditional question or offer, without presenting an unverified problem as fact."""
 
 
 def generate_content(db: Session, data: OutreachGenerate):

@@ -375,7 +375,7 @@ export default function DashboardPage() {
                 <h2>
                   <CalendarDays /> Outreach activity
                 </h2>
-                <Link className="round-action" to="/outreach" aria-label="Open outreach studio">
+                <Link className="round-action" to="/outreach" aria-label="Open outreach">
                   <ArrowUpRight />
                 </Link>
               </div>

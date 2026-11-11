@@ -200,7 +200,7 @@ export default function ApprovalsPage() {
                 title="Select a draft to review"
                 description="Choose a draft to review its wording, source evidence and version history."
                 to="/outreach"
-                action="Open outreach studio"
+                action="Open outreach"
               />
             </section>
           ) : detail.isPending ? (
