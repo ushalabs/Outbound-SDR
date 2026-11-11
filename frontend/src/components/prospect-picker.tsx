@@ -27,7 +27,7 @@ export function ProspectPicker({
       <label>
         Find a prospect
         <input
-          placeholder="Search your prospects…"
+          placeholder="Name or company"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />

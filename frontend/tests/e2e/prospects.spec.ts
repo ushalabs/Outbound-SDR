@@ -32,7 +32,7 @@ test('prospect workspace supports forms, mapping and honest empty states', async
   await page.setViewportSize({ width: 390, height: 844 })
   await page.reload()
   await expect(page.getByRole('button', { name: 'Add prospect', exact: true })).toBeVisible()
-  await expect(page.getByText('Your next connection starts here')).toBeVisible()
+  await expect(page.getByText('No prospects yet')).toBeVisible()
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
   ).toBeTruthy()

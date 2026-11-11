@@ -19,9 +19,7 @@ export default function ActivityPage() {
     <>
       <div className="page-heading">
         <div>
-          <div className="eyebrow">A RECORD OF REAL WORK</div>
           <h1>Workspace activity</h1>
-          <p>Your persisted research, prospect and review history.</p>
         </div>
         <select
           className="activity-filter"
@@ -57,7 +55,7 @@ export default function ActivityPage() {
           <ErrorState error={query.error} retry={() => void query.refetch()} />
         ) : !query.data.items.length ? (
           <EmptyState
-            title="Your activity will appear here"
+            title="No activity yet"
             description="Add a prospect, complete research or review a draft to build your workspace history."
             to="/prospects"
             action="Open prospects"

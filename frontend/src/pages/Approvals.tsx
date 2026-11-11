@@ -100,9 +100,7 @@ export default function ApprovalsPage() {
     <>
       <div className="page-heading">
         <div>
-          <div className="eyebrow">HUMAN JUDGMENT, EVERY TIME</div>
           <h1>Approval queue</h1>
-          <p>Review the evidence. Approve a version. Keep the full history.</p>
         </div>
         <span className="subtle-chip">{counts.data?.pending ?? '—'} awaiting review</span>
       </div>
@@ -120,7 +118,7 @@ export default function ApprovalsPage() {
             <Search size={15} />
             <input
               aria-label="Search approval queue"
-              placeholder="Search company or contact…"
+              placeholder="Company or contact"
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value)
@@ -199,7 +197,7 @@ export default function ApprovalsPage() {
           {!id ? (
             <section className="card">
               <EmptyState
-                title="Ready for a second look"
+                title="Select a draft to review"
                 description="Choose a draft to review its wording, source evidence and version history."
                 to="/outreach"
                 action="Open outreach studio"

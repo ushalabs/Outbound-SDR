@@ -173,13 +173,11 @@ export default function ResearchPage() {
     <>
       <div className="page-heading">
         <div>
-          <div className="eyebrow">EVIDENCE BEFORE OUTREACH</div>
           <h1>Company research</h1>
-          <p>Public sources. Clear provenance. Thoughtful hypotheses.</p>
         </div>
         <span className="subtle-chip">
           <Search size={14} />
-          Powered by Gemini
+          Research with Gemini
         </span>
       </div>
       <div className="workspace-grid">
@@ -258,7 +256,7 @@ export default function ResearchPage() {
           {!jobId ? (
             <section className="card">
               <EmptyState
-                title="Research with a reason"
+                title="No research selected"
                 description="Choose a prospect and start a run, or open a previous run to inspect its sources."
                 to="/prospects"
                 action="Manage prospects"

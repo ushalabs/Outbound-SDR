@@ -552,9 +552,7 @@ export default function ProspectsPage() {
     <>
       <div className="page-heading">
         <div>
-          <div className="eyebrow">BUILD YOUR PIPELINE</div>
           <h1>Prospects</h1>
-          <p>A focused list. A stronger first conversation.</p>
         </div>
         <div className="actions">
           <Button variant="outline" onClick={() => setModal('discovery')}>
@@ -585,7 +583,7 @@ export default function ProspectsPage() {
             <Search size={16} />
             <input
               aria-label="Search prospects"
-              placeholder="Search name, company or email…"
+              placeholder="Name, company, or email"
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value)
@@ -661,7 +659,7 @@ export default function ProspectsPage() {
           <ErrorState error={query.error} retry={() => void query.refetch()} />
         ) : query.data.items.length === 0 ? (
           <EmptyState
-            title={search || status ? 'No matching prospects' : 'Your next connection starts here'}
+            title={search || status ? 'No matching prospects' : 'No prospects yet'}
             description={
               search || status
                 ? 'Adjust the search or status filter to find your prospects.'

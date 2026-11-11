@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, useSearchParams } from 'react-router-dom'
-import { ArrowUpRight, FileText, RefreshCw, Save, Sparkles } from 'lucide-react'
+import { ArrowUpRight, FileText, RefreshCw, Save } from 'lucide-react'
 import { api } from '@/lib/api'
 import type { Draft, Page, Research } from '@/lib/types'
 import { Button } from '@/components/ui/button'
@@ -59,7 +59,7 @@ export function DraftEditor({
           <p className="help">
             {historical
               ? 'Historical version · read only'
-              : 'Every save creates a new review version.'}
+              : 'Every save creates a new review version'}
           </p>
         </div>
         <Badge value={draft.status} />
@@ -88,7 +88,7 @@ export function DraftEditor({
       </div>
       {preview ? (
         <div className="email-preview">
-          <small>SUBJECT</small>
+          <small>Subject</small>
           <h3>{subject}</h3>
           <div className="section-divider" />
           <p>{body}</p>
@@ -247,9 +247,7 @@ export default function OutreachPage() {
     <>
       <div className="page-heading">
         <div>
-          <div className="eyebrow">A BETTER FIRST IMPRESSION</div>
           <h1>Outreach studio</h1>
-          <p>Personalized with evidence. Always a draft until you review.</p>
         </div>
         <Button asChild variant="outline">
           <Link to="/approvals">
@@ -311,7 +309,7 @@ export default function OutreachPage() {
             disabled={!valid || generate.isPending}
             onClick={() => generate.mutate()}
           >
-            <Sparkles size={14} />
+            <FileText size={14} />
             {generate.isPending ? 'Generating grounded draft…' : 'Generate outreach'}
           </Button>
           {generate.error && (
@@ -371,13 +369,13 @@ export default function OutreachPage() {
         <section className="card workspace-main">
           {generate.isPending ? (
             <div className="state" role="status">
-              <Sparkles className="text-primary" />
+              <FileText />
               <h3>Composing from your research</h3>
               <p>Retrieving company evidence and drafting with Gemini.</p>
             </div>
           ) : !draftId ? (
             <EmptyState
-              title="A thoughtful introduction starts here"
+              title="No draft selected"
               description="Select a prospect, provide your sender context and generate a grounded first draft."
             />
           ) : detail.isPending ? (

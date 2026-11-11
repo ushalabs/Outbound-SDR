@@ -52,10 +52,6 @@ export function SemanticResearch({
         <h2>Semantic evidence search</h2>
         <Database size={17} className="text-primary" />
       </div>
-      <p className="help">
-        Find relevant passages from the latest company research using real Gemini embeddings and
-        pgvector cosine similarity.
-      </p>
       <div className="embedding-controls">
         <span className="help">
           {state.data

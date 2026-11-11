@@ -23,6 +23,6 @@ test('isolated Neon prospect persists after reload, then edits and deletes', asy
   await page.keyboard.press('Escape')
   await page.getByRole('button', { name: 'Delete Synthetic E2E contact', exact: true }).click()
   await page.getByRole('button', { name: 'Confirm deletion' }).click()
-  await expect(page.getByText('Your next connection starts here')).toBeVisible()
+  await expect(page.getByText('No prospects yet')).toBeVisible()
   expect(errors).toEqual([])
 })

@@ -22,7 +22,7 @@ test('dashboard charts reflect persisted isolated prospects and filters', async 
   await page.reload()
   await expect(page.getByTestId('total-prospects')).toHaveText('2')
   await page.screenshot({ path: '../artifacts/phase-7-dashboard-populated.png', fullPage: true })
-  await page.getByLabel('Dashboard date range').selectOption('custom')
+  await page.getByRole('button', { name: 'Custom range', exact: true }).click()
   await page.getByLabel('Start date').fill('2020-01-01')
   await page.getByLabel('End date').fill('2020-01-02')
   await expect(page.getByTestId('total-prospects')).toHaveText('0')

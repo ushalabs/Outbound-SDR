@@ -4,15 +4,14 @@ import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-quer
 import { BrowserRouter, NavLink, Route, Routes, Link } from 'react-router-dom'
 import {
   Activity,
-  ArrowUpRight,
   CheckCheck,
   ChevronRight,
   CircleCheck,
   FileText,
   LayoutDashboard,
   Search,
-  Sparkles,
   Users,
+  ArrowUpRight,
   Zap,
 } from 'lucide-react'
 import { api } from './lib/api'
@@ -54,11 +53,15 @@ function Shell() {
   })
   return (
     <div className="app-frame">
-      <aside className="sidebar">
+      <header className="app-header">
         <Link className="brand" to="/" aria-label="Outbound home">
-          <Zap fill="currentColor" size={23} />
+          <span className="brand-mark">
+            <Zap size={20} />
+          </span>
+          <span>
+            Outbound<small>SDR Agent</small>
+          </span>
         </Link>
-        <div className="nav-divider" />
         <nav aria-label="Main navigation">
           {navigation.map(({ path, label, icon: Icon }) => (
             <NavLink
@@ -68,7 +71,7 @@ function Shell() {
               className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
               title={label}
             >
-              <Icon size={21} />
+              <Icon size={16} />
               <span>{label}</span>
               {path === '/approvals' && !!counts.data?.pending && (
                 <span className="nav-count">{counts.data.pending}</span>
@@ -76,36 +79,30 @@ function Shell() {
             </NavLink>
           ))}
         </nav>
-        <div className="sidebar-foot">
-          <span className="avatar">TA</span>
-          <span className="sidebar-caption">THINK AI</span>
-        </div>
-      </aside>
-      <div className="main-wrap">
-        <header className="topbar">
-          <Link to="/" className="wordmark">
-            outbound<span> / </span>
-            <small>SDR WORKSPACE</small>
+        <div className="header-actions">
+          <Link
+            className="round-action"
+            to="/prospects"
+            aria-label="Search prospects"
+            title="Search prospects"
+          >
+            <Search />
           </Link>
-          <div className="topbar-right">
-            <span className={`connection ${health.isSuccess ? 'online' : ''}`}>
-              <span />
-              {health.isSuccess
-                ? 'Backend online'
-                : health.isError
-                  ? 'Backend unavailable'
-                  : 'Connecting'}
-            </span>
-            <span className="local-label" title={database.error?.message}>
-              {database.isSuccess
-                ? 'Neon connected'
-                : database.isError
-                  ? 'Database unavailable'
-                  : 'Connecting to Neon'}
-            </span>
-            <span className="avatar light">TA</span>
-          </div>
-        </header>
+          <Link
+            className="round-action"
+            to="/approvals"
+            aria-label="Open review queue"
+            title="Review queue"
+          >
+            <CheckCheck />
+            {Boolean(counts.data?.pending) && <i className="notification-dot" />}
+          </Link>
+          <span className="workspace-mark" title="Think AI Works">
+            TA
+          </span>
+        </div>
+      </header>
+      <div className="main-wrap">
         <main>
           <Suspense fallback={<Loading />}>
             <Routes>
@@ -144,13 +141,36 @@ function Shell() {
             </Routes>
           </Suspense>
           <footer>
-            <span>
-              <Sparkles size={13} /> THINK AI WORKS
+            <span className="footer-connections">
+              <span className={`connection ${health.isSuccess ? 'online' : ''}`}>
+                <i />
+                {health.isSuccess
+                  ? 'Backend online'
+                  : health.isError
+                    ? 'Backend unavailable'
+                    : 'Connecting'}
+              </span>
+              <span title={database.error?.message}>
+                {database.isSuccess
+                  ? 'Neon connected'
+                  : database.isError
+                    ? 'Database unavailable'
+                    : 'Connecting to Neon'}
+              </span>
             </span>
-            <span>
-              Research. Personalize. Review.
+            <nav className="workflow-trail" aria-label="Outreach workflow">
+              <Link to="/research">
+                <b>01</b> Evidence
+              </Link>
               <ChevronRight size={13} />
-            </span>
+              <Link to="/outreach">
+                <b>02</b> Draft
+              </Link>
+              <ChevronRight size={13} />
+              <Link to="/approvals">
+                <b>03</b> Review
+              </Link>
+            </nav>
           </footer>
         </main>
         <div className="safety-bar">
@@ -158,7 +178,9 @@ function Shell() {
           <span>Human approval required</span>
           <span className="dot" />
           Drafts only · Email sending disabled
-          <ArrowUpRight size={13} />
+          <span className="safety-brand">
+            Think AI Works <ArrowUpRight />
+          </span>
         </div>
       </div>
     </div>
