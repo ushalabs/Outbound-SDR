@@ -1,0 +1,220 @@
+[
+  {
+    "id": "SMB01",
+    "company": "Carla Seed Accountancy",
+    "source": "https://www.carlaseed.co.uk/",
+    "email": "info@carlaseed.co.uk",
+    "started": "2026-11-11T15:52:04.263Z",
+    "checks": [
+      "Verified business and published email persist after reload",
+      "Real Gemini research and stored supporting evidence available (public website)",
+      "Real embeddings saved and relevant company evidence retrieved"
+    ],
+    "links": {
+      "prospect": "http://127.0.0.1:5173/research?prospect=75a12d3a-c4a6-48a2-a746-3019609049b0"
+    },
+    "status": "FAIL",
+    "research_mode": "public website",
+    "summary": "locator.fill: Timeout 18000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Your value proposition', { exact: true })\u001b[22m\n",
+    "finished": "2026-11-11T15:52:54.090Z"
+  },
+  {
+    "id": "SMB02",
+    "company": "Summed Up Accountancy",
+    "source": "https://summed-up.co.uk/contact/",
+    "email": "enquiries@summed-up.co.uk",
+    "started": "2026-11-11T15:52:54.093Z",
+    "checks": [
+      "Verified business and published email persist after reload",
+      "Real Gemini research and stored supporting evidence available (public website)",
+      "Real embeddings saved and relevant company evidence retrieved"
+    ],
+    "links": {
+      "prospect": "http://127.0.0.1:5173/research?prospect=ff627263-f7c5-4242-8c28-be24d0b644da"
+    },
+    "status": "FAIL",
+    "research_mode": "public website",
+    "summary": "locator.fill: Timeout 18000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Your value proposition', { exact: true })\u001b[22m\n",
+    "finished": "2026-11-11T15:53:42.810Z"
+  },
+  {
+    "id": "SMB01",
+    "company": "Carla Seed Accountancy",
+    "source": "https://www.carlaseed.co.uk/",
+    "email": "info@carlaseed.co.uk",
+    "started": "2026-11-11T15:54:21.910Z",
+    "checks": [
+      "Verified business and published email persist after reload",
+      "Real Gemini research and stored supporting evidence available (public website)",
+      "Real embeddings saved and relevant company evidence retrieved",
+      "Personalized draft generated from this specific small business evidence",
+      "Human edit saved as v2; original v1 remains unchanged",
+      "Exact v2 approved and real JSON export verified not_sent",
+      "Draft and review status survive browser reload",
+      "Case ledger saved inside real prospect notes"
+    ],
+    "links": {
+      "prospect": "http://127.0.0.1:5173/research?prospect=75a12d3a-c4a6-48a2-a746-3019609049b0",
+      "draft": "http://127.0.0.1:5173/approvals?draft=39fd9749-a0e9-4ca2-ab63-b89390a49e87"
+    },
+    "status": "PASS",
+    "research_mode": "public website",
+    "original_body": "Dear Carla Seed,\n\nI noticed that Carla Seed Accountancy operates as a \"small accountancy firm in Stockport, providing a personalised professional service to local business owners and individuals in the Stockport and South Manchester areas.\"\n\nAt UshaLabs, we build software that turns meeting recordings or transcripts into structured minutes, decisions and action items. We would like to explore a reviewed client-consultation recap and follow-up checklist for a small accountancy practice.\n\nWould you be open to exploring how this might fit into your consultations?\n\nBest regards,\nUshaLabs team\nUshaLabs",
+    "outcome": "approve",
+    "summary": "8 live UI checks completed; approve review state retained",
+    "finished": "2026-11-11T15:54:56.993Z"
+  },
+  {
+    "id": "SMB02",
+    "company": "Summed Up Accountancy",
+    "source": "https://summed-up.co.uk/contact/",
+    "email": "enquiries@summed-up.co.uk",
+    "started": "2026-11-11T15:54:56.994Z",
+    "checks": [
+      "Verified business and published email persist after reload",
+      "Real Gemini research and stored supporting evidence available (public website)",
+      "Real embeddings saved and relevant company evidence retrieved"
+    ],
+    "links": {
+      "prospect": "http://127.0.0.1:5173/research?prospect=ff627263-f7c5-4242-8c28-be24d0b644da"
+    },
+    "status": "FAIL",
+    "research_mode": "public website",
+    "summary": "expect(locator).toBeVisible() failed\n\nLocator: getByRole('heading', { name: 'Draft studio', exact: true })\nExpected: visible\nTimeout: 100000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByRole('heading', { name: 'Draft studio', exact: true }) with timeout 100000ms\n  - waiting for getByRole('heading', { name: 'Draft studio', exact: true })\n",
+    "finished": "2026-11-11T15:56:48.432Z"
+  },
+  {
+    "id": "SMB03",
+    "company": "Morris Accountancy Services",
+    "source": "https://morrisaccountancyservices.co.uk/contact/",
+    "email": "info@morrisaccountancyservices.co.uk",
+    "started": "2026-11-11T15:56:48.435Z",
+    "checks": [
+      "Verified business and published email persist after reload",
+      "Real Gemini research and stored supporting evidence available (public website)",
+      "Real embeddings saved and relevant company evidence retrieved",
+      "Personalized draft generated from this specific small business evidence",
+      "Human edit saved as v2; original v1 remains unchanged",
+      "Reject and reviewer note persisted",
+      "Draft and review status survive browser reload",
+      "Case ledger saved inside real prospect notes"
+    ],
+    "links": {
+      "prospect": "http://127.0.0.1:5173/research?prospect=5060665e-9041-4866-be9e-599723ca565f",
+      "draft": "http://127.0.0.1:5173/approvals?draft=ac1723a7-a51b-4e19-bbe6-472de0c48837"
+    },
+    "status": "PASS",
+    "research_mode": "public website",
+    "original_body": "Hi Vanessa, I hope this email finds you well. I was reading through Morris Accountancy Services and noted that you provide personalised accountancy services for small to medium-sized businesses.\n\nAs an independent accountant managing various client needs ranging from tax planning to bookkeeping, would you be interested in exploring a reviewed client-consultation recap and follow-up checklist for your practice?\n\nAt UshaLabs, we build software that turns meeting recordings or transcripts into structured minutes, decisions and action items.\n\nWould you be open to a brief conversation to see if this could be a fit for your workflow?\n\nBest regards,\nUshaLabs team\nUshaLabs",
+    "outcome": "reject",
+    "summary": "8 live UI checks completed; reject review state retained",
+    "finished": "2026-11-11T15:57:36.885Z"
+  },
+  {
+    "id": "SMB04",
+    "company": "Adena Accountancy",
+    "source": "https://adenaaccountancy.co.uk/contact-us/",
+    "email": "info@adenaaccountancy.co.uk",
+    "started": "2026-11-11T15:57:36.886Z",
+    "checks": [
+      "Verified business and published email persist after reload",
+      "Website research returned a real error, retained in history: Gemini request failed (HTTP 503, UNAVAILABLE): This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."
+    ],
+    "links": {
+      "prospect": "http://127.0.0.1:5173/research?prospect=aa92830a-c0cf-4d73-919f-dd7fb0804c44"
+    },
+    "status": "FAIL",
+    "website_fetch_issue": "Gemini request failed (HTTP 503, UNAVAILABLE): This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+    "summary": "Gemini request failed (HTTP 503, UNAVAILABLE): This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+    "finished": "2026-11-11T15:58:07.617Z"
+  },
+  {
+    "id": "SMB05",
+    "company": "Go Figure Financial",
+    "source": "https://www.gofigurefinancial.com/",
+    "email": "karen@gofigurefinancial.com",
+    "started": "2026-11-11T15:58:07.619Z",
+    "checks": [
+      "Verified business and published email persist after reload",
+      "Website research returned a real error, retained in history: Gemini request failed (HTTP 503, UNAVAILABLE): This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."
+    ],
+    "links": {
+      "prospect": "http://127.0.0.1:5173/research?prospect=42edf529-d8f0-4569-badb-d53a73724a3f"
+    },
+    "status": "FAIL",
+    "website_fetch_issue": "Gemini request failed (HTTP 503, UNAVAILABLE): This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+    "summary": "Gemini request failed (HTTP 503, UNAVAILABLE): This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+    "finished": "2026-11-11T15:58:44.314Z"
+  },
+  {
+    "id": "SMB02",
+    "company": "Summed Up Accountancy",
+    "source": "https://summed-up.co.uk/contact/",
+    "email": "enquiries@summed-up.co.uk",
+    "started": "2026-11-11T15:59:26.253Z",
+    "checks": [
+      "Verified business and published email persist after reload",
+      "Real Gemini research and stored supporting evidence available (public website)",
+      "Real embeddings saved and relevant company evidence retrieved",
+      "Personalized draft generated from this specific small business evidence",
+      "Human edit saved as v2; original v1 remains unchanged",
+      "Draft left pending for user review",
+      "Draft and review status survive browser reload",
+      "Case ledger saved inside real prospect notes"
+    ],
+    "links": {
+      "prospect": "http://127.0.0.1:5173/research?prospect=ff627263-f7c5-4242-8c28-be24d0b644da",
+      "draft": "http://127.0.0.1:5173/approvals?draft=2f714b62-bf79-4ecd-930f-a2cbdb0bc9c0"
+    },
+    "status": "PASS",
+    "research_mode": "public website",
+    "original_body": "Hello Summed Up Accountancy team, I noticed that you provide \"accountancy, tax and financial support to small businesses across Manchester and the wider UK\".\n\nI am reaching out because we would like to explore a reviewed client-consultation recap and follow-up checklist for a small accountancy practice. We have not verified that this business has a problem or wants this service, and we do not claim any existing relationship or results.\n\nWe build software that turns meeting recordings or transcripts into structured minutes, decisions and action items.\n\nWould you be open to exploring how this could fit into your practice?\n\nBest regards,\nUshaLabs team\nUshaLabs",
+    "outcome": "pending",
+    "summary": "8 live UI checks completed; pending review state retained",
+    "finished": "2026-11-11T16:00:00.919Z"
+  },
+  {
+    "id": "SMB04",
+    "company": "Adena Accountancy",
+    "source": "https://adenaaccountancy.co.uk/contact-us/",
+    "email": "info@adenaaccountancy.co.uk",
+    "started": "2026-11-11T16:00:00.920Z",
+    "checks": [
+      "Verified business and published email persist after reload",
+      "Real Gemini research and stored supporting evidence available (public website)",
+      "Real embeddings saved and relevant company evidence retrieved",
+      "Personalized draft generated from this specific small business evidence",
+      "Human edit saved as v2; original v1 remains unchanged",
+      "Archive and reviewer note persisted",
+      "Draft and review status survive browser reload",
+      "Case ledger saved inside real prospect notes"
+    ],
+    "links": {
+      "prospect": "http://127.0.0.1:5173/research?prospect=aa92830a-c0cf-4d73-919f-dd7fb0804c44",
+      "draft": "http://127.0.0.1:5173/approvals?draft=6ecc0fb5-e26c-4f61-8357-9da105173de2"
+    },
+    "status": "PASS",
+    "research_mode": "public website",
+    "original_body": "Hello Adena Accountancy team,\n\nWe noted that you are a \"Local accountancy practice with an Oldham office\" publishing services for sole traders, limited companies and small businesses.\n\nWe build software that turns meeting recordings or transcripts into structured minutes, decisions and action items. We would like to explore a reviewed client-consultation recap and follow-up checklist for a small accountancy practice. We have not verified that this business has a problem or wants this service, and we do not claim any existing relationship or results.\n\nWould you be open to exploring this for your practice?\n\nBest regards,\nUshaLabs team\nUshaLabs",
+    "outcome": "archive",
+    "summary": "8 live UI checks completed; archive review state retained",
+    "finished": "2026-11-11T16:00:31.920Z"
+  },
+  {
+    "id": "SMB05",
+    "company": "Go Figure Financial",
+    "source": "https://www.gofigurefinancial.com/",
+    "email": "karen@gofigurefinancial.com",
+    "started": "2026-11-11T16:00:31.921Z",
+    "checks": [
+      "Verified business and published email persist after reload"
+    ],
+    "links": {
+      "prospect": "http://127.0.0.1:5173/research?prospect=42edf529-d8f0-4569-badb-d53a73724a3f"
+    },
+    "status": "FAIL",
+    "provider_issue": "Gemini request failed (HTTP 503, UNAVAILABLE): This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+    "summary": "Gemini request failed (HTTP 503, UNAVAILABLE): This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+    "finished": "2026-11-11T16:01:33.173Z"
+  }
+]

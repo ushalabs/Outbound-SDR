@@ -1,0 +1,326 @@
+[
+  {
+    "id": "T01",
+    "title": "Live dashboard baseline",
+    "status": "PASS",
+    "started": "2026-11-11T15:32:21.025Z",
+    "finished": "2026-11-11T15:32:24.602Z",
+    "details": "Starting prospects: 0",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "id": "T02",
+    "title": "Manually add verified Cal.com company",
+    "status": "FAIL",
+    "started": "2026-11-11T15:32:24.604Z",
+    "finished": "2026-11-11T15:32:25.149Z",
+    "details": "locator.fill: Error: Element is not an <input>, <textarea>, <select> or [contenteditable] and does not have a role allowing [aria-readonly]\nCall log:\n\u001b[2m  - waiting for getByLabel('Search prospects', { exact: true })\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"/prospects\" class=\"round-action\" data-discover=\"true\" title=\"Search prospects\" aria-label=\"Search prospects\">…</a>\u001b[22m\n\u001b[2m    - fill(\"\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and editable\u001b[22m\n",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T01",
+    "title": "Live dashboard baseline",
+    "status": "PASS",
+    "started": "2026-11-11T15:32:38.087Z",
+    "finished": "2026-11-11T15:32:41.064Z",
+    "details": "Starting prospects: 0",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "id": "T02",
+    "title": "Manually add verified Cal.com company",
+    "status": "FAIL",
+    "started": "2026-11-11T15:32:41.068Z",
+    "finished": "2026-11-11T15:32:49.943Z",
+    "details": "expect(locator).toBeVisible() failed\n\nLocator: getByRole('button', { name: 'Cal.com', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByRole('button', { name: 'Cal.com', exact: true }) with timeout 5000ms\n  - waiting for getByRole('button', { name: 'Cal.com', exact: true })\n",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T01",
+    "title": "Live dashboard baseline",
+    "status": "PASS",
+    "started": "2026-11-11T15:33:35.639Z",
+    "finished": "2026-11-11T15:33:38.567Z",
+    "details": "Starting prospects: 1",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "id": "T02",
+    "title": "Manually add verified Cal.com company",
+    "status": "PASS",
+    "started": "2026-11-11T15:33:38.570Z",
+    "finished": "2026-11-11T15:33:39.542Z",
+    "details": "Previously created Cal.com confirmed persisted after reload; initial assertion timeout retried.",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T03",
+    "title": "Import official-source CSV into real database",
+    "status": "PASS",
+    "started": "2026-11-11T15:33:39.545Z",
+    "finished": "2026-11-11T15:33:55.862Z",
+    "details": "Nine imported, existing Cal.com skipped; persisted import summary.",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T04",
+    "title": "Duplicate CSV prevention",
+    "status": "PASS",
+    "started": "2026-11-11T15:33:55.865Z",
+    "finished": "2026-11-11T15:33:57.594Z",
+    "details": "All ten existing companies detected; no additional records imported.",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T05",
+    "title": "CSV missing/invalid website validation",
+    "status": "FAIL",
+    "started": "2026-11-11T15:33:57.598Z",
+    "finished": "2026-11-11T15:34:43.643Z",
+    "details": "expect(locator).toBeVisible() failed\n\nLocator: getByText(/2 rows · 0 ready · 0 duplicates · 2 invalid/)\nExpected: visible\nTimeout: 45000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByText(/2 rows · 0 ready · 0 duplicates · 2 invalid/) with timeout 45000ms\n  - waiting for getByText(/2 rows · 0 ready · 0 duplicates · 2 invalid/)\n",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T05",
+    "title": "CSV missing/invalid website validation",
+    "status": "PASS",
+    "started": "2026-11-11T15:35:29.173Z",
+    "finished": "2026-11-11T15:35:30.305Z",
+    "details": "Both invalid rows blocked before import.",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T06",
+    "title": "Prospect search, sorting and filter controls",
+    "status": "PASS",
+    "started": "2026-11-11T15:35:30.309Z",
+    "finished": "2026-11-11T15:35:33.142Z",
+    "details": "Search isolates Buffer; company sort, direction and new-status filter work.",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T07",
+    "title": "Edit Buffer notes and qualification, verify persistence",
+    "status": "FAIL",
+    "started": "2026-11-11T15:35:33.145Z",
+    "finished": "2026-11-11T15:35:52.536Z",
+    "details": "locator.selectOption: Timeout 18000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Status', { exact: true })\u001b[22m\n",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T07",
+    "title": "Edit Buffer notes and qualification, verify persistence",
+    "status": "PASS",
+    "started": "2026-11-11T15:36:39.315Z",
+    "finished": "2026-11-11T15:36:44.750Z",
+    "details": "Notes and qualified state saved in live database.",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T08",
+    "title": "Company detail inspection",
+    "status": "PASS",
+    "started": "2026-11-11T15:36:44.753Z",
+    "finished": "2026-11-11T15:36:45.713Z",
+    "details": "Company details show associated persisted prospect.",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T09",
+    "title": "Bulk qualification across real companies",
+    "status": "PASS",
+    "started": "2026-11-11T15:36:45.717Z",
+    "finished": "2026-11-11T15:36:49.161Z",
+    "details": "PostHog and Linear marked qualified through bulk UI; test state, not intent.",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T10",
+    "title": "Do-not-contact flag persistence",
+    "status": "PASS",
+    "started": "2026-11-11T15:36:49.164Z",
+    "finished": "2026-11-11T15:36:53.939Z",
+    "details": "GitLab retains DNC test guard; rationale saved in notes.",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T11",
+    "title": "Deletion confirmation cancellation preserves Calendly",
+    "status": "PASS",
+    "started": "2026-11-11T15:36:53.943Z",
+    "finished": "2026-11-11T15:36:56.460Z",
+    "details": "Cancelled deletion does not alter real record.",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T12",
+    "title": "Cal.com public-website research with real Gemini",
+    "status": "PASS",
+    "started": "2026-11-11T15:37:16.659Z",
+    "finished": "2026-11-11T15:37:41.897Z",
+    "details": "Public website source fetched and research persisted; http://127.0.0.1:5173/research?prospect=b6326d84-d27e-4468-8790-1904db65015d",
+    "url": "http://127.0.0.1:5173/research?prospect=b6326d84-d27e-4468-8790-1904db65015d"
+  },
+  {
+    "id": "T13",
+    "title": "Research source inspection and reload",
+    "status": "PASS",
+    "started": "2026-11-11T15:37:41.905Z",
+    "finished": "2026-11-11T15:37:44.008Z",
+    "details": "Stored website evidence and completed research survive reload.",
+    "url": "http://127.0.0.1:5173/research?prospect=b6326d84-d27e-4468-8790-1904db65015d"
+  },
+  {
+    "id": "T14",
+    "title": "Buffer research from accurately attributed manual source notes",
+    "status": "FAIL",
+    "started": "2026-11-11T15:37:44.013Z",
+    "finished": "2026-11-11T15:38:04.105Z",
+    "details": "locator.fill: Timeout 18000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Source notes', { exact: true })\u001b[22m\n",
+    "url": "http://127.0.0.1:5173/research?prospect=8477f775-f1e3-4320-9f1d-a554e039af39"
+  },
+  {
+    "id": "T14",
+    "title": "Buffer research from accurately attributed manual source notes",
+    "status": "PASS",
+    "started": "2026-11-11T15:38:26.186Z",
+    "finished": "2026-11-11T15:38:43.134Z",
+    "details": "Real Buffer facts analyzed; user-provided provenance retained.",
+    "url": "http://127.0.0.1:5173/research?prospect=8477f775-f1e3-4320-9f1d-a554e039af39"
+  },
+  {
+    "id": "T15",
+    "title": "Research rerun and history",
+    "status": "PASS",
+    "started": "2026-11-11T15:38:43.140Z",
+    "finished": "2026-11-11T15:38:55.389Z",
+    "details": "Second Buffer run saved; first run retained in history.",
+    "url": "http://127.0.0.1:5173/research?prospect=8477f775-f1e3-4320-9f1d-a554e039af39"
+  },
+  {
+    "id": "T16",
+    "title": "Real embedding generation and semantic evidence search",
+    "status": "PASS",
+    "started": "2026-11-11T15:38:55.391Z",
+    "finished": "2026-11-11T15:39:02.579Z",
+    "details": "Gemini vectors persisted and real Buffer evidence retrieved.",
+    "url": "http://127.0.0.1:5173/research?prospect=8477f775-f1e3-4320-9f1d-a554e039af39"
+  },
+  {
+    "id": "T17",
+    "title": "Professional grounded outreach for Buffer",
+    "status": "PASS",
+    "started": "2026-11-11T15:39:02.581Z",
+    "finished": "2026-11-11T15:39:11.008Z",
+    "details": "Saved draft using UshaLabs organization identity and existing MeetingMinutes product capabilities.",
+    "url": "http://127.0.0.1:5173/outreach?prospect=8477f775-f1e3-4320-9f1d-a554e039af39"
+  },
+  {
+    "id": "T18",
+    "title": "Edit, preview and immutable historical draft",
+    "status": "PASS",
+    "started": "2026-11-11T15:39:11.015Z",
+    "finished": "2026-11-11T15:39:14.805Z",
+    "details": "Edited v2 saved; preview works and original v1 remains read only.",
+    "url": "http://127.0.0.1:5173/outreach?prospect=8477f775-f1e3-4320-9f1d-a554e039af39"
+  },
+  {
+    "id": "T19",
+    "title": "Regenerate outreach as a new version",
+    "status": "PASS",
+    "started": "2026-11-11T15:39:14.810Z",
+    "finished": "2026-11-11T15:39:25.433Z",
+    "details": "Gemini regeneration saved v3 and survived reload.",
+    "url": "http://127.0.0.1:5173/outreach?prospect=8477f775-f1e3-4320-9f1d-a554e039af39"
+  },
+  {
+    "id": "T20",
+    "title": "Approve exact version, copy and download JSON",
+    "status": "PASS",
+    "started": "2026-11-11T15:39:25.438Z",
+    "finished": "2026-11-11T15:39:30.426Z",
+    "details": "Version-specific approval, clipboard and JSON export work; not_sent verified.",
+    "url": "http://127.0.0.1:5173/approvals?draft=d9bf051f-6f0f-4242-b82c-c665c4d2ba47"
+  },
+  {
+    "id": "T21",
+    "title": "Editing approved draft resets review; reject with note",
+    "status": "PASS",
+    "started": "2026-11-11T15:39:30.430Z",
+    "finished": "2026-11-11T15:39:35.381Z",
+    "details": "New v4 required fresh review; rejection and note persisted.",
+    "url": "http://127.0.0.1:5173/approvals?draft=d9bf051f-6f0f-4242-b82c-c665c4d2ba47"
+  },
+  {
+    "id": "T22",
+    "title": "Reopen rejected draft and approve new version",
+    "status": "PASS",
+    "started": "2026-11-11T15:39:35.386Z",
+    "finished": "2026-11-11T15:39:40.986Z",
+    "details": "Approved Buffer v5 and complete earlier history remain in normal database.",
+    "url": "http://127.0.0.1:5173/approvals?draft=d9bf051f-6f0f-4242-b82c-c665c4d2ba47"
+  },
+  {
+    "id": "T23",
+    "title": "Friendly tone generation and archive",
+    "status": "PASS",
+    "started": "2026-11-11T15:39:56.431Z",
+    "finished": "2026-11-11T15:40:22.928Z",
+    "details": "Separate friendly draft saved as archived, not deleted.",
+    "url": "http://127.0.0.1:5173/approvals?draft=84a44e88-4234-4823-a749-69c4e8f94436"
+  },
+  {
+    "id": "T24",
+    "title": "Concise tone generation left pending for user",
+    "status": "FAIL",
+    "started": "2026-11-11T15:40:22.932Z",
+    "finished": "2026-11-11T15:42:03.719Z",
+    "details": "expect(locator).toBeVisible() failed\n\nLocator: getByRole('heading', { name: 'Draft studio', exact: true })\nExpected: visible\nTimeout: 100000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByRole('heading', { name: 'Draft studio', exact: true }) with timeout 100000ms\n  - waiting for getByRole('heading', { name: 'Draft studio', exact: true })\n",
+    "url": "http://127.0.0.1:5173/approvals"
+  },
+  {
+    "id": "T24",
+    "title": "Concise tone generation left pending for user",
+    "status": "PASS",
+    "started": "2026-11-11T15:42:41.282Z",
+    "finished": "2026-11-11T15:42:44.713Z",
+    "details": "Concise Buffer draft remains pending for the user to review.",
+    "url": "http://127.0.0.1:5173/approvals"
+  },
+  {
+    "id": "T25",
+    "title": "Do-not-contact blocks drafting",
+    "status": "PASS",
+    "started": "2026-11-11T15:42:44.717Z",
+    "finished": "2026-11-11T15:42:47.178Z",
+    "details": "GitLab drafting blocked with actual server-enforced DNC error; no draft created.",
+    "url": "http://127.0.0.1:5173/outreach?prospect=21ae31cd-7ef9-4a3d-a98f-6c12be875d8b"
+  },
+  {
+    "id": "T26",
+    "title": "Import more verified businesses to exercise pagination",
+    "status": "PASS",
+    "started": "2026-11-11T15:42:47.182Z",
+    "finished": "2026-11-11T15:43:02.494Z",
+    "details": "Eleven additional official-source businesses imported; total 21.",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T27",
+    "title": "Public company discovery preview and confirmed import",
+    "status": "PASS",
+    "started": "2026-11-11T15:43:02.500Z",
+    "finished": "2026-11-11T15:43:09.292Z",
+    "details": "Resend extracted from its official source and confirmed before saving.",
+    "url": "http://127.0.0.1:5173/prospects"
+  },
+  {
+    "id": "T28",
+    "title": "Confirmed deletion and recreation of Calendly",
+    "status": "FAIL",
+    "started": "2026-11-11T15:43:09.295Z",
+    "finished": "2026-11-11T15:44:02.604Z",
+    "details": "expect(locator).toBeVisible() failed\n\nLocator: getByRole('button', { name: 'Calendly', exact: true })\nExpected: visible\nTimeout: 45000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByRole('button', { name: 'Calendly', exact: true }) with timeout 45000ms\n  - waiting for getByRole('button', { name: 'Calendly', exact: true })\n",
+    "url": "http://127.0.0.1:5173/"
+  }
+]

@@ -1,0 +1,12 @@
+company_name,website_url,industry,source_url,notes
+Notion,https://www.notion.com/,Workspace software,https://www.notion.com/about,Official source checked 2026-11-11: Workspace and knowledge tools. Manual UI pagination test business; no outreach sent.
+Slack,https://slack.com/,Work collaboration,https://slack.com/about,Official source checked 2026-11-11: Work communication platform; part of Salesforce. Manual UI pagination test business; no outreach sent.
+Asana,https://asana.com/,Work management,https://asana.com/company,Official source checked 2026-11-11: Work management software. Manual UI pagination test business; no outreach sent.
+Dropbox,https://www.dropbox.com/,File collaboration,https://www.dropbox.com/about,Official source checked 2026-11-11: File synchronization and work collaboration products. Manual UI pagination test business; no outreach sent.
+Miro,https://miro.com/,Visual collaboration,https://miro.com/about/,Official source checked 2026-11-11: Collaborative canvas and workflow tools. Manual UI pagination test business; no outreach sent.
+Fin,https://fin.ai/,Customer service software,https://fin.ai/about,Official source checked 2026-11-11: AI customer agent software; Intercom about page redirects here. Manual UI pagination test business; no outreach sent.
+37signals (Basecamp),https://basecamp.com/,Project management,https://basecamp.com/about,Official source checked 2026-11-11: 37signals is the business that makes Basecamp. Manual UI pagination test business; no outreach sent.
+Help Scout,https://www.helpscout.com/,Customer support software,https://www.helpscout.com/about/,Official source checked 2026-11-11: Customer support inbox and assistance tools. Manual UI pagination test business; no outreach sent.
+Airtable,https://www.airtable.com/,Application platform,https://www.airtable.com/about,Official source checked 2026-11-11: Application building and workflow platform. Manual UI pagination test business; no outreach sent.
+ClickUp,https://clickup.com/,Work management,https://clickup.com/about,"Official source checked 2026-11-11: Tools for tasks, conversations and documents. Manual UI pagination test business; no outreach sent."
+Sentry,https://sentry.io/,Application monitoring,https://sentry.io/about/,Official source checked 2026-11-11: Error tracking and performance monitoring tools. Manual UI pagination test business; no outreach sent.

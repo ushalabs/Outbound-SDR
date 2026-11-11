@@ -1,0 +1,184 @@
+[
+  {
+    "company_name": "Cal.com",
+    "website_url": "https://cal.com/",
+    "industry": "Scheduling software",
+    "source_url": "https://cal.com/about",
+    "verified_summary": "Scheduling platform for individuals, teams and embedded scheduling."
+  },
+  {
+    "company_name": "Buffer",
+    "website_url": "https://buffer.com/",
+    "industry": "Social media software",
+    "source_url": "https://buffer.com/about",
+    "verified_summary": "Social media publishing, content planning and performance tools."
+  },
+  {
+    "company_name": "Doist",
+    "website_url": "https://doist.com/",
+    "industry": "Productivity software",
+    "source_url": "https://www.todoist.com/about-us",
+    "verified_summary": "The company behind Todoist productivity software; doist.com redirects to Todoist."
+  },
+  {
+    "company_name": "PostHog",
+    "website_url": "https://posthog.com/",
+    "industry": "Product analytics",
+    "source_url": "https://posthog.com/about",
+    "verified_summary": "Tools for product engineers, customer data and product development."
+  },
+  {
+    "company_name": "Linear",
+    "website_url": "https://linear.app/",
+    "industry": "Product development software",
+    "source_url": "https://linear.app/about",
+    "verified_summary": "Tools for teams and agents working on product development."
+  },
+  {
+    "company_name": "Ghost",
+    "website_url": "https://ghost.org/",
+    "industry": "Publishing software",
+    "source_url": "https://ghost.org/about/",
+    "verified_summary": "Open-source publishing platform for creators, publishers and businesses."
+  },
+  {
+    "company_name": "Automattic",
+    "website_url": "https://automattic.com/",
+    "industry": "Web publishing software",
+    "source_url": "https://automattic.com/about/",
+    "verified_summary": "Builds products for the open web, including WordPress.com."
+  },
+  {
+    "company_name": "GitLab",
+    "website_url": "https://about.gitlab.com/",
+    "industry": "Software development platform",
+    "source_url": "https://about.gitlab.com/company/",
+    "verified_summary": "Software platform covering development, delivery and security."
+  },
+  {
+    "company_name": "Zapier",
+    "website_url": "https://zapier.com/",
+    "industry": "Workflow automation",
+    "source_url": "https://zapier.com/about",
+    "verified_summary": "Workflow automation and app integration platform."
+  },
+  {
+    "company_name": "Calendly",
+    "website_url": "https://calendly.com/",
+    "industry": "Scheduling software",
+    "source_url": "https://calendly.com/about",
+    "verified_summary": "Scheduling software and related meeting workflow products."
+  },
+  {
+    "company_name": "Sentry",
+    "website_url": "https://sentry.io/",
+    "industry": "Application monitoring",
+    "source_url": "https://sentry.io/about/",
+    "verified_summary": "Error tracking, performance monitoring and session replay tools."
+  },
+  {
+    "company_name": "Resend",
+    "website_url": "https://resend.com/",
+    "industry": "Developer email platform",
+    "source_url": "https://resend.com/about",
+    "verified_summary": "Email sending platform for developers."
+  },
+  {
+    "company_name": "Cloudflare",
+    "website_url": "https://www.cloudflare.com/",
+    "industry": "Internet infrastructure",
+    "source_url": "https://www.cloudflare.com/about-overview/",
+    "verified_summary": "Networking, security and application performance services."
+  },
+  {
+    "company_name": "Vercel",
+    "website_url": "https://vercel.com/",
+    "industry": "Web development platform",
+    "source_url": "https://vercel.com/about",
+    "verified_summary": "Web application and AI development infrastructure."
+  },
+  {
+    "company_name": "HubSpot",
+    "website_url": "https://www.hubspot.com/",
+    "industry": "CRM software",
+    "source_url": "https://www.hubspot.com/our-story",
+    "verified_summary": "CRM, marketing, sales and customer service software."
+  },
+  {
+    "company_name": "Notion",
+    "website_url": "https://www.notion.com/",
+    "industry": "Workspace software",
+    "source_url": "https://www.notion.com/about",
+    "verified_summary": "Workspace and knowledge tools."
+  },
+  {
+    "company_name": "Slack",
+    "website_url": "https://slack.com/",
+    "industry": "Work collaboration",
+    "source_url": "https://slack.com/about",
+    "verified_summary": "Work communication platform; part of Salesforce."
+  },
+  {
+    "company_name": "Asana",
+    "website_url": "https://asana.com/",
+    "industry": "Work management",
+    "source_url": "https://asana.com/company",
+    "verified_summary": "Work management software."
+  },
+  {
+    "company_name": "Dropbox",
+    "website_url": "https://www.dropbox.com/",
+    "industry": "File collaboration",
+    "source_url": "https://www.dropbox.com/about",
+    "verified_summary": "File synchronization and work collaboration products."
+  },
+  {
+    "company_name": "Miro",
+    "website_url": "https://miro.com/",
+    "industry": "Visual collaboration",
+    "source_url": "https://miro.com/about/",
+    "verified_summary": "Collaborative canvas and workflow tools."
+  },
+  {
+    "company_name": "Fin",
+    "website_url": "https://fin.ai/",
+    "industry": "Customer service software",
+    "source_url": "https://fin.ai/about",
+    "verified_summary": "AI customer agent software; Intercom about page redirects here."
+  },
+  {
+    "company_name": "37signals (Basecamp)",
+    "website_url": "https://basecamp.com/",
+    "industry": "Project management",
+    "source_url": "https://basecamp.com/about",
+    "verified_summary": "37signals is the business that makes Basecamp."
+  },
+  {
+    "company_name": "Help Scout",
+    "website_url": "https://www.helpscout.com/",
+    "industry": "Customer support software",
+    "source_url": "https://www.helpscout.com/about/",
+    "verified_summary": "Customer support inbox and assistance tools."
+  },
+  {
+    "company_name": "Airtable",
+    "website_url": "https://www.airtable.com/",
+    "industry": "Application platform",
+    "source_url": "https://www.airtable.com/about",
+    "verified_summary": "Application building and workflow platform."
+  },
+  {
+    "company_name": "ClickUp",
+    "website_url": "https://clickup.com/",
+    "industry": "Work management",
+    "source_url": "https://clickup.com/about",
+    "verified_summary": "Tools for tasks, conversations and documents."
+  },
+  {
+    "company_name": "Sentry",
+    "website_url": "https://sentry.io/",
+    "industry": "Application monitoring",
+    "source_url": "https://sentry.io/about/",
+    "verified_summary": "Error tracking and performance monitoring tools."
+  }
+]

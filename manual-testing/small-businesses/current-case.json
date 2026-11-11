@@ -1,0 +1,12 @@
+{
+  "id": "SMB05",
+  "company": "Go Figure Financial",
+  "source": "https://www.gofigurefinancial.com/",
+  "email": "karen@gofigurefinancial.com",
+  "started": "2026-11-11T16:00:31.921Z",
+  "checks": [
+    "Verified business and published email persist after reload"
+  ],
+  "links": {},
+  "status": "RUNNING"
+}

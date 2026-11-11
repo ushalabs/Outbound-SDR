@@ -1,0 +1,72 @@
+[
+  {
+    "company_name": "Carla Seed Accountancy",
+    "website_url": "https://www.carlaseed.co.uk/",
+    "full_name": "Carla Seed",
+    "email": "info@carlaseed.co.uk",
+    "job_title": "Chartered certified accountant",
+    "industry": "Accountancy and bookkeeping",
+    "location": "Cheadle Hulme / Stockport, UK",
+    "source_url": "https://www.carlaseed.co.uk/",
+    "phone": "07730 31 41 51",
+    "facts": "Small accountancy firm serving Stockport and South Manchester. Offers bookkeeping, accounts, tax compliance and free initial consultations.",
+    "angle": "Explore a workflow for turning initial client consultation notes into a reviewed recap and action list. Actual need is unconfirmed.",
+    "outcome": "approve"
+  },
+  {
+    "company_name": "Summed Up Accountancy",
+    "website_url": "https://summed-up.co.uk/",
+    "full_name": "",
+    "email": "enquiries@summed-up.co.uk",
+    "job_title": "",
+    "industry": "Accountancy and bookkeeping",
+    "location": "Manchester service area; UK-wide remote clients",
+    "source_url": "https://summed-up.co.uk/contact/",
+    "phone": "0161 505 1978",
+    "facts": "Offers a free 30-minute discovery call and an introductory meeting when switching accountants. Quotes follow initial discussions. Supports Xero and other accounting software. Contact page says John is currently based in Australia.",
+    "angle": "A reviewed discovery-call recap and follow-up checklist could be relevant; no existing problem or buying intent is established.",
+    "outcome": "pending"
+  },
+  {
+    "company_name": "Morris Accountancy Services",
+    "website_url": "https://morrisaccountancyservices.co.uk/",
+    "full_name": "Vanessa Morris",
+    "email": "info@morrisaccountancyservices.co.uk",
+    "job_title": "Independent accountant",
+    "industry": "Accountancy and bookkeeping",
+    "location": "Stockport and Cheshire, UK",
+    "source_url": "https://morrisaccountancyservices.co.uk/contact/",
+    "phone": "07967 253672",
+    "facts": "Vanessa Morris describes herself as an independent accountant in Stockport. Services include accountancy, tax, bookkeeping, VAT and payroll for small businesses. Contact page offers flexible meeting times.",
+    "angle": "Explore a reviewed client-meeting recap workflow without assuming the practice currently loses information.",
+    "outcome": "reject"
+  },
+  {
+    "company_name": "Adena Accountancy",
+    "website_url": "https://adenaaccountancy.co.uk/",
+    "full_name": "",
+    "email": "info@adenaaccountancy.co.uk",
+    "job_title": "",
+    "industry": "Accountancy and bookkeeping",
+    "location": "Oldham, Greater Manchester, UK",
+    "source_url": "https://adenaaccountancy.co.uk/contact-us/",
+    "phone": "0161 706 1847",
+    "facts": "Local accountancy practice with an Oldham office. Publishes services for sole traders, limited companies and small businesses, including bookkeeping, VAT, accounts and payroll.",
+    "angle": "Potential fit for reviewed onboarding-call summaries; no claimed operational pain or staffing size.",
+    "outcome": "archive"
+  },
+  {
+    "company_name": "Go Figure Financial",
+    "website_url": "https://www.gofigurefinancial.com/",
+    "full_name": "",
+    "email": "karen@gofigurefinancial.com",
+    "job_title": "",
+    "industry": "Accountancy and bookkeeping",
+    "location": "Didsbury, Manchester; also London and remote clients",
+    "source_url": "https://www.gofigurefinancial.com/",
+    "phone": "020 3700 8178",
+    "facts": "Chartered accountants specializing in bookkeeping. Offers fixed-fee services and remote work, including bookkeeping, accounting and taxation. The official website publishes karen@gofigurefinancial.com as its contact address.",
+    "angle": "Explore a reviewed recap for remote bookkeeping consultations; recipient full name and actual demand are not verified.",
+    "outcome": "pending"
+  }
+]

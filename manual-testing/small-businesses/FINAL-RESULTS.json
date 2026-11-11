@@ -1,0 +1,128 @@
+{
+  "date": "2026-11-11",
+  "database": "normal live workspace; retained",
+  "cases": [
+    {
+      "id": "SMB01",
+      "company": "Carla Seed Accountancy",
+      "email": "info@carlaseed.co.uk",
+      "phone": "07730 31 41 51",
+      "source": "https://www.carlaseed.co.uk/",
+      "status": "PASS",
+      "research_mode": "public website",
+      "review": "approve",
+      "checks": [
+        "Verified business and published email persist after reload",
+        "Real Gemini research and stored supporting evidence available (public website)",
+        "Real embeddings saved and relevant company evidence retrieved",
+        "Personalized draft generated from this specific small business evidence",
+        "Human edit saved as v2; original v1 remains unchanged",
+        "Exact v2 approved and real JSON export verified not_sent",
+        "Draft and review status survive browser reload",
+        "Case ledger saved inside real prospect notes"
+      ],
+      "links": {
+        "prospect": "http://127.0.0.1:5173/research?prospect=75a12d3a-c4a6-48a2-a746-3019609049b0",
+        "draft": "http://127.0.0.1:5173/approvals?draft=39fd9749-a0e9-4ca2-ab63-b89390a49e87"
+      },
+      "finished": "2026-11-11T15:54:56.993Z",
+      "issue": ""
+    },
+    {
+      "id": "SMB02",
+      "company": "Summed Up Accountancy",
+      "email": "enquiries@summed-up.co.uk",
+      "phone": "0161 505 1978",
+      "source": "https://summed-up.co.uk/contact/",
+      "status": "PASS",
+      "research_mode": "public website",
+      "review": "pending",
+      "checks": [
+        "Verified business and published email persist after reload",
+        "Real Gemini research and stored supporting evidence available (public website)",
+        "Real embeddings saved and relevant company evidence retrieved",
+        "Personalized draft generated from this specific small business evidence",
+        "Human edit saved as v2; original v1 remains unchanged",
+        "Draft left pending for user review",
+        "Draft and review status survive browser reload",
+        "Case ledger saved inside real prospect notes"
+      ],
+      "links": {
+        "prospect": "http://127.0.0.1:5173/research?prospect=ff627263-f7c5-4242-8c28-be24d0b644da",
+        "draft": "http://127.0.0.1:5173/approvals?draft=2f714b62-bf79-4ecd-930f-a2cbdb0bc9c0"
+      },
+      "finished": "2026-11-11T16:00:00.919Z",
+      "issue": ""
+    },
+    {
+      "id": "SMB03",
+      "company": "Morris Accountancy Services",
+      "email": "info@morrisaccountancyservices.co.uk",
+      "phone": "07967 253672",
+      "source": "https://morrisaccountancyservices.co.uk/contact/",
+      "status": "PASS",
+      "research_mode": "public website",
+      "review": "reject",
+      "checks": [
+        "Verified business and published email persist after reload",
+        "Real Gemini research and stored supporting evidence available (public website)",
+        "Real embeddings saved and relevant company evidence retrieved",
+        "Personalized draft generated from this specific small business evidence",
+        "Human edit saved as v2; original v1 remains unchanged",
+        "Reject and reviewer note persisted",
+        "Draft and review status survive browser reload",
+        "Case ledger saved inside real prospect notes"
+      ],
+      "links": {
+        "prospect": "http://127.0.0.1:5173/research?prospect=5060665e-9041-4866-be9e-599723ca565f",
+        "draft": "http://127.0.0.1:5173/approvals?draft=ac1723a7-a51b-4e19-bbe6-472de0c48837"
+      },
+      "finished": "2026-11-11T15:57:36.885Z",
+      "issue": ""
+    },
+    {
+      "id": "SMB04",
+      "company": "Adena Accountancy",
+      "email": "info@adenaaccountancy.co.uk",
+      "phone": "0161 706 1847",
+      "source": "https://adenaaccountancy.co.uk/contact-us/",
+      "status": "PASS",
+      "research_mode": "User-provided notes summarized from the verified official contact page",
+      "review": "archive",
+      "checks": [
+        "Verified business and published email persist after reload",
+        "Real Gemini research and stored supporting evidence available (public website)",
+        "Real embeddings saved and relevant company evidence retrieved",
+        "Personalized draft generated from this specific small business evidence",
+        "Human edit saved as v2; original v1 remains unchanged",
+        "Archive and reviewer note persisted",
+        "Draft and review status survive browser reload",
+        "Case ledger saved inside real prospect notes"
+      ],
+      "links": {
+        "prospect": "http://127.0.0.1:5173/research?prospect=aa92830a-c0cf-4d73-919f-dd7fb0804c44",
+        "draft": "http://127.0.0.1:5173/approvals?draft=6ecc0fb5-e26c-4f61-8357-9da105173de2"
+      },
+      "finished": "2026-11-11T16:00:31.920Z",
+      "issue": ""
+    },
+    {
+      "id": "SMB05",
+      "company": "Go Figure Financial",
+      "email": "karen@gofigurefinancial.com",
+      "phone": "020 3700 8178",
+      "source": "https://www.gofigurefinancial.com/",
+      "status": "BLOCKED",
+      "research_mode": "Research attempted; Gemini 503 prevented completion",
+      "review": "No draft created",
+      "checks": [
+        "Verified business and published email persist after reload"
+      ],
+      "links": {
+        "prospect": "http://127.0.0.1:5173/research?prospect=42edf529-d8f0-4569-badb-d53a73724a3f"
+      },
+      "finished": "2026-11-11T16:01:33.173Z",
+      "issue": "Gemini request failed (HTTP 503, UNAVAILABLE): This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."
+    }
+  ]
+}

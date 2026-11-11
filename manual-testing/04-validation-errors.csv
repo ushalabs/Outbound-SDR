@@ -1,0 +1,3 @@
+company_name,website_url,industry,source_url,notes
+Buffer,,Social media software,https://buffer.com/about,Intentional missing website validation case; do not import.
+Cal.com,https://,Scheduling software,https://cal.com/about,Intentional invalid website validation case; do not import.
